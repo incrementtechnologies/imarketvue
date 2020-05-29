@@ -25,15 +25,10 @@
               <label for="exampleInputEmail1">Description</label>
               <input type="text" class="form-control" placeholder="Type description here..." v-model="description">
             </div>
-            <div class="form-group" v-if="type !== 'd'">
+            <div class="form-group">
               <input class="form-check-input" type="checkbox" v-model="option" id="defaultCheck1" style="margin-left: 0px;">
               <label class="form-check-label" for="defaultCheck1">
                 Create as Bundled Product
-              </label>
-            </div>
-            <div class="form-group" v-if="type === 'd'">
-              <label class="form-check" for="defaultCheck1">
-                Automatically create as Bundled Product
               </label>
             </div>
           </div>
@@ -60,11 +55,6 @@ import axios from 'axios'
 import COMMON from 'src/common.js'
 export default {
   mounted(){
-    if(this.type === 'd'){
-      this.option = true
-    }else{
-      this.option = false
-    }
   },
   data(){
     return {
@@ -77,7 +67,7 @@ export default {
       common: COMMON
     }
   },
-  props: ['params', 'type'],
+  props: ['params'],
   methods: {
     redirect(parameter){
       ROUTER.push(parameter)
@@ -95,11 +85,7 @@ export default {
           status: 'pending',
           merchant_id: this.user.subAccount.merchant.id
         }
-        if(this.type === 'd'){
-          parameter['type'] = 'bundled'
-        }else{
-          parameter['type'] = this.option === true ? 'bundled' : 'regular'
-        }
+        parameter['type'] = this.option === true ? 'bundled' : 'regular'
         $('#loading').css({display: 'block'})
         this.APIRequest('products/create', parameter).then(response => {
           $('#loading').css({display: 'none'})

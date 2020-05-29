@@ -1,42 +1,6 @@
 <template>
   <div>
-    <table class="table table-bordered table-responsive" v-if="type === 'consignments'">
-      <thead>
-        <tr>
-          <td v-if="user.type !== 'MANUFACTURER'">Manufacturer</td>
-          <td>Title</td>
-          <td v-if="user.type === 'MANUFACTURER'">Tags</td>
-          <td>Inventory</td>
-          <td v-if="user.type === 'MANUFACTURER'">Action</td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item, index) in data" :key="index">
-          <td v-if="user.type !== 'MANUFACTURER'">
-            {{item.merchant.name}}
-          </td>
-          <td>
-            <i class="fas fa-clone text-primary" v-if="item.type !== 'regular'" title="This is a bundled product"></i>
-            <label class="underline-on-hover" @click="redirect('/marketplace/product/' + item.code + '/preview')">{{item.title}}</label>
-          </td>
-          <td v-if="user.type === 'MANUFACTURER'">{{item.tags}}</td>
-          <td v-if="user.type === 'MANUFACTURER'">
-             <button class="btn btn-primary" @click="redirect('/traces/' + item.code)" title="Total active trace">>{{parseInt(item.qty)}}</button>
-             <button class="btn btn-warning" title="Total active trace in bundled">{{item.qty_in_bundled}}</button>
-          </td>
-          <td v-if="user.type !== 'MANUFACTURER'">
-             <button class="btn btn-primary" title="Total active trace">{{user.type === 'USER' ? parseFloat(item.qty).toFixed(2) : parseInt(item.qty)}}</button>
-             <button class="btn btn-warning" title="Total active trace in bundled">{{item.qty_in_bundled}}</button>
-          </td>
-          <td v-if="user.type === 'MANUFACTURER'">
-            <button class="btn btn-primary" @click="redirect('/product/edit/' + item.code)">EDIT</button>
-            <button class="btn btn-warning" @click="showModal('create', item)" v-if="item.type === 'regular' && item.status === 'published'">Add Inventory</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-
-    <table class="table table-bordered table-responsive" v-if="type === 'products'">
+    <table class="table table-bordered table-responsive">
       <thead>
         <tr>
           <td>Title</td>
@@ -49,20 +13,21 @@
         <tr v-for="(item, index) in data" :key="index">
           <td>
             <i class="fas fa-clone text-primary" v-if="item.type !== 'regular'" title="This is a bundled product"></i>
-            {{item.title}}
+            <label class="underline-on-hover" @click="redirect('/marketplace/product/' + item.code + '/preview')">{{item.title}}</label>
           </td>
           <td>{{item.tags}}</td>
           <td>
-             <button class="btn btn-primary" @click="redirect('/traces/' + item.code)" title="Total active trace">{{user.type === 'USER' ? parseFloat(item.qty).toFixed(2) : parseInt(item.qty)}}</button>
-             <button class="btn btn-warning" title="Total active trace in bundled">{{item.qty_in_bundled}}</button>
+             <button class="btn btn-primary" @click="redirect('/traces/' + item.code)" title="Total active trace">{{parseInt(item.qty)}}</button>
           </td>
-          <td>
+          <td >
             <button class="btn btn-primary" @click="redirect('/product/edit/' + item.code)">EDIT</button>
             <button class="btn btn-warning" @click="showModal('create', item)" v-if="item.type === 'regular' && item.status === 'published'">Add Inventory</button>
           </td>
         </tr>
       </tbody>
     </table>
+
+    
 
     <create-modal :property="createProductTraceModal"></create-modal>
     <create-product-traces-modal :params="productId"></create-product-traces-modal>
