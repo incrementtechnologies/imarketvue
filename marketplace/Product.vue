@@ -123,6 +123,7 @@
     width: 100%;
     float: left;
     font-size: 16px;
+    margin-top: 25px;
   }
   .product-item-holder{
     width: 100%;

@@ -1,30 +1,24 @@
 <template>
   <div v-if="data !== null">
       <div class="product-holder" v-bind:class="listStyle" v-for="(item, index) in data" @click="redirect('marketplace/product/' + item.code)" :key="index"> 
-        <div v-if="listStyle !== 'four-columns'" class="product-image">
+        <div class="product-image">
           <img :src="config.BACKEND_URL + item.featured[0].url" v-if="item.featured !== null">
-          <img :src="config.BACKEND_URL + '/storage/image/no_image.png'" v-else>
-        </div>          
-        <div v-else class="fourColumn">
-          <img :src="config.BACKEND_URL + item.featured[0].url" v-if="item.featured !== null">
-          <img :src="config.BACKEND_URL + '/storage/image/no_image.png'" v-else>
-        </div>
+          <i class="fas fa-image" v-else></i>
+        </div> 
 
-        <div class="product-details">
-          <div class="product-title">
-              <label class="text" style="padding-top:5px;"><b>{{item.title}}</b></label>
-              <label class="text" style="padding-top:5px;"><b>{{item.account.username}}</b></label> 
-          </div>
-          <div class="product-price">
-            <label class="price-label" v-if="item.price !== null">
-              <label  class="text" v-if="item.price.length === 1">{{currency.display(item.price[0].price)}}</label>
-              <label v-if="item.price.length > 1">PHP {{item.price[0].price + ' - ' + item.price[item.price.length - 1].price}}</label>
-                <label id="ratings">
-                  <ratings :ratings="{size: 0, stars: 2}"></ratings>
-                </label>
+
+        <div class="products-details">
+          <div class="products-title" :style="{width: item.price === null ? '100%' : '50%'}">
+            <label style="padding-top: 5px;"><b>{{item.title}}</b></label>
+            <label>{{item.description}}</label>
+          </div>  
+          <div class="products-price" v-if="item.price === null">
+            <label v-if="item.price !== null">
+              <label v-if="item.price.length === 1">PHP {{item.price[0].price}}</label>
+              <label v-if="item.price.length > 1">PHP {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</label>
             </label>
           </div>
-        </div> 
+        </div>
       </div>
   </div>
   
@@ -63,7 +57,8 @@
     border: solid 1px #ddd;
     margin-bottom: 10px;
     color: #555;
-    margin-top: 50px;
+    margin-top: 0px;
+    margin-bottom: 25px;
   }
   .four-columns{
     width: 24%;
@@ -86,7 +81,7 @@
     position: relative;
     height: auto;
     text-align: center;
-    min-height: 350px;
+    min-height: 200px;
   }
 
   .product-image img{
@@ -114,12 +109,16 @@
     float: left;
     height: 50px;
   }
-  .product-title label{
-    width: 100%;
+  
+  .products-title label{
+    width: 96%;
     float: left;
     font-size: 12px;
     margin: 0px !important;
     padding-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; 
   }
 
   .product-star{
@@ -212,6 +211,7 @@ body { padding: 100px; }
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
+import COMMON from 'src/common.js'
 import CURRENCY from 'src/services/currency.js'
 import axios from 'axios'
 export default {
@@ -226,7 +226,8 @@ export default {
       avg: 0,
       stars: 0,
       status: true,
-      currency: CURRENCY
+      currency: CURRENCY,
+      common: COMMON
     }
   },
   props: ['data', 'listStyle'],

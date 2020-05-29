@@ -1,11 +1,6 @@
 <template>
   <div class="marketplace-holder">
-    <div class="banner text-white">
-      <h1>Welcome {{user.username}} to PaPrint</h1> 
-      <h3>We have all you need.</h3>
-      <button class="btn btn-primary btn"@click="redirect('/editor/v2')">Want to print something?</button>
-    </div>  
-    <div class="product-holder">  
+    <div class="product-holder">
       <generic-filter v-bind:category="category" 
         :activeCategoryIndex="1"
         :activeSortingIndex="0"
@@ -43,6 +38,7 @@
   float: left;
   min-height: 10px;
   overflow-y: hidden;
+  margin-top: 25px;
 }
 .product-holder .results{
   width: 100%;
@@ -117,6 +113,7 @@ option {
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
+import COMMON from 'src/common.js'
 import axios from 'axios'
 export default {
   mounted(){
@@ -130,6 +127,7 @@ export default {
       data: null,
       listStyle: 'four-columns',
       filterValue: '',
+      common: COMMON,
       category: [{
         title: 'Company',
         sorting: [{
@@ -187,7 +185,8 @@ export default {
           clause: 'like'
         }],
         sort: sort,
-        account_id: this.user.userID
+        account_id: this.user.userID,
+        inventory_type: COMMON.ecommerce.inventoryType
       }
       $('#loading').css({display: 'block'})
       this.APIRequest('products/retrieve', parameter).then(response => {

@@ -14,7 +14,7 @@
         <div class="product-item-title">
           <label>Title <label class="text-danger">*</label></label>
           <br>
-          <input type="text" class="form-control form-control-custom" v-model="data.title" placeholder="Type product title here..." :disabled="data.status === 'published'">
+          <input type="text" class="form-control form-control-custom" v-model="data.title" placeholder="Type product title here...">
         </div>
         <div class="product-item-title">
           <label>Description <label class="text-danger">*</label></label>
