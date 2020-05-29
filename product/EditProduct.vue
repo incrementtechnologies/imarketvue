@@ -399,7 +399,7 @@ export default {
   computed: {
     productMenu: function (){
       if(this.data !== null){
-        return (this.data.type === 'regular') ? [{
+        return (this.data.type === 'bundled') ? [{
           title: 'Inventory',
           flag: true
         }] : COMMON.ecommerce.editProductMenu

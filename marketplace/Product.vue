@@ -38,8 +38,8 @@
           </span>
         </div>
         <div class="product-row text-primary" v-if="data.price !== null">
-          <label v-if="data.price.length === 1">{{currency.display(data.price[0].price)}}</label>
-          <label v-if="data.price.length > 1">PHP {{data.price[0].price + ' - ' + data.price[data.price.length - 1].price}}</label>
+          <label v-if="data.price.length === 1">{{currency.displayWithCurrency(data.price[0].price, data.price[0].currency)}}</label>
+          <label v-if="data.price.length > 1">{{data.price[0].currency}} {{data.price[0].price + ' - ' + data.price[data.price.length - 1].price}}</label>
           <i class="fa fa-chevron-down show-prices" style="padding-left: 20px;" @click="showPrice(true)" v-if="data.price.length > 1 && priceFlag === false"></i>
           <i class="fa fa-chevron-up show-prices" style="padding-left: 20px;" @click="showPrice(false)" v-if="data.price.length > 1 && priceFlag === true"></i>
         </div>
@@ -79,8 +79,8 @@
           <span style="width: 100%'" class="alert alert-danger">Out of stock.</span>
         </div>
         <div class="product-row">
-          <button class="btn btn-primary" @click="addToCart(data.id)"><i class="fa fa-shopping-cart" style="padding-right: 10px;"></i>ADD TO CART</button>
-          <button class="btn btn-warning two" style="padding-right: 10px;"@click="redirect('/editor/v2')" ><i class="fa fa-pencil" style="padding-right: 10px;"></i>CUSTOMIZE</button> 
+          <button class="btn btn-primary" @click="addToCart(data.id)"><i class="fa fa-shopping-cart" style="padding-right: 10px;"></i>POST TO REQUEST</button>
+          <button class="btn btn-warning two" style="padding-right: 10px;"@click="redirect('/editor/v2')" ><i class="fa fa-pencil" style="padding-right: 10px;"></i>ADD TO CART</button>
           <button class="btn btn-danger" @click="addToWishlist(data.id)" v-if="data.wishlist_flag === false && data.checkout_flag === false"><i class="far fa-heart" style="padding-right: 10px;"></i>ADD TO WISHLIST</button>
           <button class="btn btn-warning" @click="redirect('/checkout')" v-if="data.checkout_flag === true">PROCEED TO CHECKOUT</button>
         </div>
@@ -94,10 +94,9 @@
         </div>
         <div class="product-row-rating">
           <ratings :payload="'product'" :payloadValue="data.id"></ratings>
-        </div> 
-          <button class="btn btn-primary" data-toggle="modal" data-target="#createTemplateModal" @click="redirect(`/messenger/${data.account.username}/product/${data.code}`)"><i class="fa fa-wrench"></i>  SPECIAL QUOTATION</button>
         </div>
       </div>
+    </div>
     <div class="product-more-details">
       <div class="pagination-holder">
         <ul class="product-menu"> <!--  do dis --> 
