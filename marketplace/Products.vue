@@ -8,16 +8,19 @@
 
 
         <div class="products-details">
-          <div class="products-title" :style="{width: item.price === null ? '100%' : '50%'}" style="float: left;">
-            <label style="padding-top: 5px;"><b>{{item.title}}</b></label>
-            <label style="padding-bottom: 5px;">{{item.description}}</label>
+          <div class="products-title" :style="{width: item.price === null ? '100%' : '100%'}" style="float: left;">
+            
+            <!-- <label v-html="item.description"></label> -->
+            <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length === 1"><b>{{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}}</b></label>
+            <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length > 1"><b>{{item.price[0].currency}} {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</b></label>
+            <label style="padding-bottom: 5px;"><b>{{item.title}}</b></label>
           </div>  
-          <div class="products-price text-right" v-if="item.price !== null" style="width: 50%;float: left;padding: 5px;">
+          <!-- <div class="products-price text-right" v-if="item.price !== null" style="width: 50%;float: left;padding: 5px;">
             <label>
               <label v-if="item.price.length === 1">{{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}}</label>
               <label v-if="item.price.length > 1">{{item.price[0].currency}} {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</label>
             </label>
-          </div>
+          </div> -->
         </div>
       </div>
   </div>
@@ -85,8 +88,9 @@
   }
 
   .product-image img{
+    height: 250px;
+    float: left;
     width: 100%;
-    height: auto;
   }
   .product-image .fa-image{
     font-size: 150px;

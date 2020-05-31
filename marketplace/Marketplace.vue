@@ -6,7 +6,7 @@
         :activeSortingIndex="0"
         @changeSortEvent="retrieve($event.sort, $event.filter)"
         @changeStyle="manageGrid($event)"
-        :grid="['list', 'th', 'th-large']">
+        :grid="['list']">
         </generic-filter>
       <div class="results">
         <products v-if="data !== null" :data="data" :listStyle="listStyle"></products> 
@@ -178,6 +178,10 @@ export default {
         condition: [{
           value: 'published',
           column: 'status',
+          clause: '='
+        }, {
+          value: 'regular',
+          column: 'type',
           clause: '='
         }, {
           value: filter.value + '%',

@@ -80,9 +80,9 @@
         </div>
         <div class="product-row">
           <button class="btn btn-primary" @click="addToCart(data.id)"><i class="fa fa-shopping-cart" style="padding-right: 10px;"></i>POST TO REQUEST</button>
-          <button class="btn btn-warning two" style="padding-right: 10px;"@click="redirect('/editor/v2')" ><i class="fa fa-pencil" style="padding-right: 10px;"></i>ADD TO CART</button>
+          <button class="btn btn-warning" @click="addToCart(data.id)"><i class="fa fa-shopping-cart" style="padding-right: 10px;"></i>PROCEED WITH INSTALLMENT</button>
+          <button class="btn btn-default" @click="redirect('/checkout')">PROCEED TO CHECKOUT</button>
           <button class="btn btn-danger" @click="addToWishlist(data.id)" v-if="data.wishlist_flag === false && data.checkout_flag === false"><i class="far fa-heart" style="padding-right: 10px;"></i>ADD TO WISHLIST</button>
-          <button class="btn btn-warning" @click="redirect('/checkout')" v-if="data.checkout_flag === true">PROCEED TO CHECKOUT</button>
         </div>
         <div class="product-row" v-if="data.sku !== null && data.sku !== ''">
           <label style="width: 15%;">Sku</label>
@@ -103,7 +103,7 @@
           <li v-for="(item, index) in productMenu" :key="index" v-bind:class="{'menu-active': item.flag === true}" class="" @click="selectMenu(index)">{{item.title}}</li>
         </ul>
       </div>
-      <div class="details-holder" v-if="prevMenuIndex === 0">
+      <div class="details-holder" v-if="prevMenuIndex === 0" style="text-align: justify">
         <label>
           <label v-html="data.description"></label>
         </label>

@@ -1,6 +1,6 @@
 <template>
   <div v-if="data !== null">
-    <div class="title">
+    <div class="title" style="margin-top: 25px;">
       <b @click="redirect('/products')">
         <label class="text-primary action-link">Products</label>
       </b>
@@ -61,7 +61,15 @@
             </div>
           </div>
         </div>
-        <div class="product-item-title">
+        <div class="product-item-title" style="width: 50% !important;">
+          <label>Type of product</label>
+          <br>
+          <select class="form-control form-control-custom" v-model="data.type">
+            <option value="regular">Regular</option>
+            <option value="rental">Rental</option>
+          </select>
+        </div>
+        <div class="product-item-title" style="width: 50% !important;">
           <label>Status</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.status">

@@ -14,16 +14,17 @@
         <i class="fa fa-image" v-else></i>
       </div>
       <div class="products-details">
-        <div class="products-title" :style="{width: item.price === null ? '100%' : '50%'}">
-          <label style="padding-top: 5px;"><b>{{item.title}}</b></label>
-          <label>{{item.description}}</label>
+        <div class="products-title" :style="{width: item.price === null ? '100%' : '100%'}">
+          <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length === 1"><b>{{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}}</b></label>
+            <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length > 1"><b>{{item.price[0].currency}} {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</b></label>
+            <label style="padding-bottom: 5px;"><b>{{item.title}}</b></label>
         </div>  
-        <div class="products-price" v-if="item.price === null">
+        <!-- <div class="products-price" v-if="item.price === null">
           <label v-if="item.price !== null">
             <label v-if="item.price.length === 1">PHP {{item.price[0].price}}</label>
             <label v-if="item.price.length > 1">PHP {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</label>
           </label>
-        </div>
+        </div> -->
       </div>
     </div>
     <table-view :data="data" v-if="listStyle === 'list' && data !== null" :type="'products'"></table-view>
@@ -158,6 +159,7 @@ import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 import axios from 'axios'
 import COMMON from 'src/common.js'
+import CURRENCY from 'src/services/currency.js'
 export default {
   mounted(){
     this.retrieve({'title': 'asc'}, {column: 'title', value: ''})
@@ -201,7 +203,8 @@ export default {
       empty: {
         title: null,
         guide: null
-      }
+      },
+      currency: CURRENCY
     }
   },
   components: {

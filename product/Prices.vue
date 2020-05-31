@@ -6,24 +6,26 @@
     <div class="form-group">
       <label for="exampleInputEmail1" style="font-weight: 600;">Price</label>
       <div>
-        <select class="form-control form-control-custom" style="width: 100%; float: left;" v-model="flag">
-          <option value="fixed">Fixed</option>
-          <option value="variable">Variable</option>
+        <select class="form-control form-control-custom" style="width: 20%; float: left;" v-model="currency">
+          <option :value="item.currency" v-for="(item, index) in countries.list" :key="index">{{item.currency}}</option>
         </select>
+        <select class="form-control form-control-custom" style="width: 30%; float: left;" v-model="flag">
+          <option value="fixed">Fixed</option>
+        </select>
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 40%;" placeholder="Type price here" v-model="price" @keyup.enter="createRequest()" v-if="flag === 'fixed'">
+        <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="createRequest()"><i class="fa fa-plus"></i></button>
       </div>
-      <div>
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 93.3%; margin-top: 10px;" placeholder="Type price here" v-model="price" @keyup.enter="createRequest()" v-if="flag === 'fixed'">
+      <!-- <div>
         <input type="text" class="form-control form-control-custom" style="float: left; width: 30.3%; margin-top: 10px;" placeholder="Minimum Qty" v-model="minimum" v-if="flag === 'variable'">
         <input type="text" class="form-control form-control-custom" style="float: left; width: 30.3%; margin-top: 10px;  margin-left: 5px;" placeholder="Maximum Qty" v-model="maximum" v-if="flag === 'variable'">
         <input type="text" class="form-control form-control-custom" style="float: left; width: 30.3%; margin-top: 10px; margin-left: 5px; margin-right: 5px;" placeholder="Type price here" v-model="price" @keyup.enter="createRequest()" v-if="flag === 'variable'">
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px; margin-top: 10px;" @click="createRequest()"><i class="fa fa-plus"></i></button>
-      </div>
+      </div> -->
     </div>
-    <div class="price-wrapper" v-if="item.price !== null">
+    <div class="price-wrapper" v-if="item.price !== null" style="margin-top: 20px; width: 100%; float: left;">
       <div class="price-item" v-for="item, index in item.price" :key="index">
         <select class="form-control form-control-custom" style="width: 20%; float: left;" v-model="item.type">
           <option value="fixed">Fixed</option>
-          <option value="variable">Variable</option>
         </select>
         <input type="text" class="form-control form-control-custom" style="float: left; width: 63%; margin-left: 1%;" placeholder="Type price here" v-model="item.price" @keyup.enter="updateRequest(item)" v-if="item.type === 'fixed'">
         <input type="text" class="form-control form-control-custom" style="float: left; width: 20%; margin-left: 1%;" placeholder="Minimum Qty" v-model="item.minimum" v-if="item.type === 'variable'">
@@ -70,6 +72,7 @@ import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 import axios from 'axios'
+import Countries from 'src/countries.js'
 export default {
   mounted(){
   },
@@ -82,7 +85,9 @@ export default {
       flag: 'fixed',
       price: null,
       minimum: null,
-      maximum: null
+      maximum: null,
+      countries: Countries,
+      currency: 'PHP'
     }
   },
   methods: {
@@ -128,7 +133,8 @@ export default {
           type: this.flag,
           minimum: null,
           maximum: null,
-          price: this.price
+          price: this.price,
+          currency: this.currency
         }
         this.APIRequest('pricings/create', parameter).then(response => {
           if(response.data > 0){
@@ -143,7 +149,8 @@ export default {
           type: this.flag,
           minimum: this.minimum,
           maximum: this.maximum,
-          price: this.price
+          price: this.price,
+          currency: this.currency
         }
         this.APIRequest('pricings/create', parameter).then(response => {
           if(response.data > 0){
