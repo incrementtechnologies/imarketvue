@@ -6,7 +6,7 @@
       :activeSortingIndex="0"
       @changeSortEvent="retrieve($event.sort, $event.filter)"
       @changeStyle="manageGrid($event)"
-      :grid="['list', 'th-large']">
+      :grid="['th-large', 'list']">
     </filter-product>
     <div class="products-holder" v-for="item, index in data" @click="redirect('/product/edit/' + item.code)" v-if="listStyle === 'columns'">
       <div class="products-image">
@@ -181,7 +181,7 @@ export default {
       data: null,
       selectedItem: null,
       selectedIndex: null,
-      listStyle: 'list',
+      listStyle: 'columns',
       type: null,
       category: [{
         title: 'Product',

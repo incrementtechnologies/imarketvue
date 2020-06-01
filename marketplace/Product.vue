@@ -79,9 +79,9 @@
           <span style="width: 100%'" class="alert alert-danger">Out of stock.</span>
         </div>
         <div class="product-row">
-          <button class="btn btn-primary" @click="addToCart(data.id)"><i class="fa fa-shopping-cart" style="padding-right: 10px;"></i>POST TO REQUEST</button>
-          <button class="btn btn-warning" @click="addToCart(data.id)"><i class="fa fa-shopping-cart" style="padding-right: 10px;"></i>PROCEED WITH INSTALLMENT</button>
-          <button class="btn btn-default" @click="redirect('/checkout')">PROCEED TO CHECKOUT</button>
+          <button class="btn btn-primary" @click="addToCart(data.id)">POST TO REQUEST</button>
+          <button class="btn btn-primary" @click="addToCart(data.id)">PROCEED WITH INSTALLMENT</button>
+          <button class="btn btn-primary" @click="redirect('/checkout')">PROCEED TO CHECKOUT</button>
           <button class="btn btn-danger" @click="addToWishlist(data.id)" v-if="data.wishlist_flag === false && data.checkout_flag === false"><i class="far fa-heart" style="padding-right: 10px;"></i>ADD TO WISHLIST</button>
         </div>
         <div class="product-row" v-if="data.sku !== null && data.sku !== ''">
@@ -94,6 +94,10 @@
         </div>
         <div class="product-row-rating">
           <ratings :payload="'product'" :payloadValue="data.id"></ratings>
+        </div>
+
+        <div class="product-row-rating" v-if="data.installment !== null">
+          <installemnt-label :data="data.installment"></installemnt-label>
         </div>
       </div>
     </div>
@@ -192,7 +196,6 @@
     min-height: 40px;
     overflow-y: hidden;
     font-weight: 600;
-    font-size: 16px;
     line-height: 40px;
   }
   .product-row-tags{
@@ -208,7 +211,6 @@
     float: left;
     min-height: 40px;
     overflow-y: hidden;
-    font-size: 16px;
     line-height: 40px;
   }
   .product-row label{
@@ -364,7 +366,8 @@ export default {
   },
   components: {
     'ratings': require('components/increment/generic/rating/Ratings.vue'),
-    'product-comments': require('components/increment/generic/comment/Comments.vue')
+    'product-comments': require('components/increment/generic/comment/Comments.vue'),
+    'installemnt-label': require('components/increment/imarketvue/installment/label.vue')
   },
   methods: {
     redirect(parameter){

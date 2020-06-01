@@ -410,10 +410,11 @@ export default {
   computed: {
     productMenu: function (){
       if(this.data !== null){
-        return (this.data.type === 'bundled') ? [{
-          title: 'Inventory',
-          flag: true
-        }] : COMMON.ecommerce.editProductMenu
+        if(this.data.type === 'rental'){
+          return COMMON.ecommerce.editProductMenuRental
+        }else{
+          return COMMON.ecommerce.editProductMenu
+        }
       }
     }
   },

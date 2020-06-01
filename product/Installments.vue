@@ -13,7 +13,7 @@
           <option :value="item" v-for="(item, index) in 20" :key="index">{{item}} {{item > 1 ? 'Percent' : 'Percents'}}</option>
         </select>
         <select class="form-control form-control-custom" style="width: 50%; float: left; margin-left: 1%;" v-model="selectedIndex">
-          <option :value="index" v-for="(item, index) in requirementOptions" :key="index">{{item.title}}</option>
+          <option :value="index" v-for="(item, index) in common.requirementOptions" :key="index">{{item.title}}</option>
         </select>
         <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="addRequirements()"><i class="fa fa-plus"></i></button>
       </div>
@@ -27,7 +27,7 @@
         <option :value="item" v-for="(item, index) in 20" :key="index">{{item}} {{item > 1 ? 'Percent' : 'Percents'}}</option>
       </select>
       <select class="form-control form-control-custom" style="width: 50%; float: left; margin-left: 1%;" v-model="selectedIndex">
-        <option :value="index" v-for="(item, index) in requirementOptions" :key="index">{{item.title}}</option>
+        <option :value="index" v-for="(item, index) in common.requirementOptions" :key="index">{{item.title}}</option>
       </select>
       <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="addRequirements()"><i class="fa fa-plus"></i></button>
     </div>
@@ -74,6 +74,7 @@
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
+import COMMON from 'src/common.js'
 import axios from 'axios'
 import Countries from 'src/countries.js'
 export default {
@@ -86,6 +87,7 @@ export default {
       user: AUTH.user,
       config: CONFIG,
       errorMessage: null,
+      common: COMMON,
       months: 1,
       interest: 1,
       requirementOptions: [{
@@ -109,7 +111,7 @@ export default {
     },
     addRequirements(){
       let flag = false
-      let selected = this.requirementOptions[this.selectedIndex]
+      let selected = COMMON.requirementOptions[this.selectedIndex]
       for (var i = 0; i < this.requirements.length; i++) {
         let item = this.requirements[i]
         if(item.payload === selected.payload){
@@ -135,8 +137,8 @@ export default {
           let requirements = this.data.requirements.split(',')
           for (var i = 0; i < requirements.length; i++) {
             let payload = requirements[i]
-            for (var j = 0; j < this.requirementOptions.length; j++) {
-              let item = this.requirementOptions[j]
+            for (var j = 0; j < COMMON.requirementOptions.length; j++) {
+              let item = COMMON.requirementOptions[j]
               if(item.payload === payload){
                 this.requirements.push(item)
               }

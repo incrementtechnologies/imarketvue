@@ -4,7 +4,9 @@
     <div class="form-group">
       <label for="exampleInputEmail1" style="font-weight: 600;">Variations</label>
       <div>
-        <input class="form-control form-control-custom" style="width: 45%; float: left;" v-model="newAttribute.payload" placeholder="Type variation here...">
+        <select style="width: 45%; float: left;" class="form-control form-control-custom" v-model="newAttribute.payload">
+          <option v-for="(item, index) in common.ecommerce.variations" :key="index" :value="item">{{item}}</option>
+        </select>
         <input type="text" class="form-control form-control-custom" style="float: left; width: 40%; margin-left: 10px;" placeholder="Type variation value here..." v-model="newAttribute.payload_value" @keyup.enter="create()">
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="create()"><i class="fa fa-plus"></i></button>
       </div>
@@ -62,6 +64,7 @@
 import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
+import COMMON from 'src/common.js'
 import axios from 'axios'
 export default {
   mounted(){
@@ -76,7 +79,8 @@ export default {
         product_id: this.item.id,
         payload: null,
         payload_value: null
-      }
+      },
+      common: COMMON
     }
   },
   methods: {

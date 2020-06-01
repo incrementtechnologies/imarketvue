@@ -3,7 +3,7 @@
     <span v-if="errorMessage !== null" class="text-danger text-center">
         <label><b>Opps! </b>{{errorMessage}}</label>
     </span>
-    <div class="form-group">
+    <div class="form-group" v-if="item.price === null">
       <label for="exampleInputEmail1" style="font-weight: 600;">Price</label>
       <div>
         <select class="form-control form-control-custom" style="width: 20%; float: left;" v-model="currency">
@@ -12,7 +12,13 @@
         <select class="form-control form-control-custom" style="width: 20%; float: left;margin-left: 1%;" v-model="flag">
           <option value="fixed">Fixed</option>
         </select>
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 48%;margin-left: 1%;" placeholder="Type price here" v-model="price" @keyup.enter="createRequest()" v-if="flag === 'fixed'">
+        <select class="form-control form-control-custom" style="width: 20%; float: left;margin-left: 1%;" v-model="label" v-if="item.type === 'rental'">
+          <option value="hour">Per Hour</option>
+          <option value="day">Per Day</option>
+          <option value="week">Per Week</option>
+          <option value="month">Per Month</option>
+        </select>
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 27%;margin-left: 1%;" placeholder="Type price here" v-model="price" @keyup.enter="createRequest()" v-if="flag === 'fixed'">
         <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="createRequest()"><i class="fa fa-plus"></i></button>
       </div>
       <!-- <div>
@@ -23,16 +29,27 @@
       </div> -->
     </div>
     <div class="price-wrapper" v-if="item.price !== null" style="margin-top: 20px; width: 100%; float: left;">
-      <div class="price-item" v-for="item, index in item.price" :key="index">
-        <select class="form-control form-control-custom" style="width: 20%; float: left;" v-model="item.currency">
-          <option :value="item.currency" v-for="(item, index) in countries.list" :key="index">{{item.currency}}</option>
+      <label for="exampleInputEmail1" style="font-weight: 600;">Price</label>
+      <div class="price-item" v-for="itemI, index in item.price" :key="index">
+
+        <select class="form-control form-control-custom" style="width: 20%; float: left;" v-model="itemI.currency">
+          <option :value="itemC.currency" v-for="(itemC, indexC) in countries.list" :key="indexC">{{itemC.currency}}</option>
         </select>
-        <select class="form-control form-control-custom" style="width: 20%; float: left; margin-left: 1%;" v-model="item.type">
+
+        <select class="form-control form-control-custom" style="width: 20%; float: left; margin-left: 1%;" v-model="itemI.type">
           <option value="fixed">Fixed</option>
         </select>
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 38%; margin-left: 1%;" placeholder="Type price here" v-model="item.price" @keyup.enter="updateRequest(item)" v-if="item.type === 'fixed'">
-        <button class="btn btn-danger form-control-custom pull-right" style="margin-left: 10px;" @click="deleteRequest(item.id)"><i class="fa fa-trash"></i></button>
-        <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="updateRequest(item)"><i class="fa fa-sync"></i></button>
+
+        <select class="form-control form-control-custom" style="width: 20%; float: left;margin-left: 1%;" v-model="itemI.label" v-if="item.type === 'rental'">
+          <option value="hour">Per Hour</option>
+          <option value="day">Per Day</option>
+          <option value="week">Per Week</option>
+          <option value="month">Per Month</option>
+        </select>
+
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 18%; margin-left: 1%;" placeholder="Type price here" v-model="itemI.price" @keyup.enter="updateRequest(itemI)" v-if="itemI.type === 'fixed'">
+        <button class="btn btn-danger form-control-custom pull-right" style="margin-left: 10px;" @click="deleteRequest(itemI.id)"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="updateRequest(itemI)"><i class="fa fa-sync"></i></button>
       </div>
     </div>
   </div>
@@ -87,7 +104,8 @@ export default {
       minimum: null,
       maximum: null,
       countries: Countries,
-      currency: 'PHP'
+      currency: 'PHP',
+      label: null
     }
   },
   methods: {
@@ -134,7 +152,8 @@ export default {
           minimum: null,
           maximum: null,
           price: this.price,
-          currency: this.currency
+          currency: this.currency,
+          label: this.label ? this.label : null
         }
         this.APIRequest('pricings/create', parameter).then(response => {
           if(response.data > 0){
