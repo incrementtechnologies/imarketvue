@@ -61,7 +61,7 @@
             </div>
           </div>
         </div>
-        <div class="product-item-title" style="width: 50% !important;">
+        <div class="product-item-title" style="width: 49% !important; margin-right: 1%;">
           <label>Type of product</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.type">
@@ -69,7 +69,7 @@
             <option value="rental">Rental</option>
           </select>
         </div>
-        <div class="product-item-title" style="width: 50% !important;">
+        <div class="product-item-title" style="width: 49% !important;margin-left: 1%;">
           <label>Status</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.status">
@@ -124,6 +124,9 @@
       </div>
       <div class="details-holder" v-if="selectedMenu.title === 'Price'">
         <prices :item="data"></prices>
+      </div>
+      <div class="details-holder" v-if="selectedMenu.title === 'Installment'">
+        <installments :item="data"></installments>
       </div>
       <div class="details-holder" v-if="selectedMenu.title === 'Inventory'">
         <inventories :item="data" v-if="common.ecommerce.inventoryType === 'inventory'"></inventories>
@@ -318,7 +321,7 @@
   .product-menu li{
     height: 50px;
     float: left;
-    width: 25%;
+    width: 20%;
     line-height: 50px;
     padding-left: 10px;
     font-weight: 600;
@@ -423,6 +426,7 @@ export default {
     'product-trace': require('components/increment/imarketvue/product/ProductTrace.vue'),
     'bundled-products': require('components/increment/imarketvue/product/BundledProducts.vue'),
     'prices': require('components/increment/imarketvue/product/Prices.vue'),
+    'installments': require('components/increment/imarketvue/product/Installments.vue'),
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
   methods: {

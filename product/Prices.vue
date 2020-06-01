@@ -9,10 +9,10 @@
         <select class="form-control form-control-custom" style="width: 20%; float: left;" v-model="currency">
           <option :value="item.currency" v-for="(item, index) in countries.list" :key="index">{{item.currency}}</option>
         </select>
-        <select class="form-control form-control-custom" style="width: 30%; float: left;" v-model="flag">
+        <select class="form-control form-control-custom" style="width: 20%; float: left;margin-left: 1%;" v-model="flag">
           <option value="fixed">Fixed</option>
         </select>
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 40%;" placeholder="Type price here" v-model="price" @keyup.enter="createRequest()" v-if="flag === 'fixed'">
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 48%;margin-left: 1%;" placeholder="Type price here" v-model="price" @keyup.enter="createRequest()" v-if="flag === 'fixed'">
         <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="createRequest()"><i class="fa fa-plus"></i></button>
       </div>
       <!-- <div>
@@ -24,15 +24,15 @@
     </div>
     <div class="price-wrapper" v-if="item.price !== null" style="margin-top: 20px; width: 100%; float: left;">
       <div class="price-item" v-for="item, index in item.price" :key="index">
-        <select class="form-control form-control-custom" style="width: 20%; float: left;" v-model="item.type">
+        <select class="form-control form-control-custom" style="width: 20%; float: left;" v-model="item.currency">
+          <option :value="item.currency" v-for="(item, index) in countries.list" :key="index">{{item.currency}}</option>
+        </select>
+        <select class="form-control form-control-custom" style="width: 20%; float: left; margin-left: 1%;" v-model="item.type">
           <option value="fixed">Fixed</option>
         </select>
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 63%; margin-left: 1%;" placeholder="Type price here" v-model="item.price" @keyup.enter="updateRequest(item)" v-if="item.type === 'fixed'">
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 20%; margin-left: 1%;" placeholder="Minimum Qty" v-model="item.minimum" v-if="item.type === 'variable'">
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 20%; margin-left: 1%;" placeholder="Maximum Qty" v-model="item.maximum" v-if="item.type === 'variable'">
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 20%; margin-left: 2%;" placeholder="Type price here" v-model="item.price" @keyup.enter="updateRequest(item)" v-if="item.type === 'variable'">
-        <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="updateRequest(item)"><i class="fa fa-sync"></i></button>
-        <button class="btn btn-danger form-control-custom" style="margin-left: 10px;" @click="deleteRequest(item.id)"><i class="fa fa-trash"></i></button>
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 38%; margin-left: 1%;" placeholder="Type price here" v-model="item.price" @keyup.enter="updateRequest(item)" v-if="item.type === 'fixed'">
+        <button class="btn btn-danger form-control-custom pull-right" style="margin-left: 10px;" @click="deleteRequest(item.id)"><i class="fa fa-trash"></i></button>
+        <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="updateRequest(item)"><i class="fa fa-sync"></i></button>
       </div>
     </div>
   </div>
