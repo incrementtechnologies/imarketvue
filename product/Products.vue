@@ -246,7 +246,7 @@ export default {
         inventory_type: this.common.ecommerce.inventoryType
       }
       $('#loading').css({'display': 'block'})
-      this.APIRequest('products/retrieve', parameter).then(response => {
+      this.APIRequest('products/retrieve_basic', parameter).then(response => {
         $('#loading').css({'display': 'none'})
         if(response.data.length > 0){
           this.data = response.data

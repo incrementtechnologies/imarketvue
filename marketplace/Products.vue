@@ -13,7 +13,8 @@
             <!-- <label v-html="item.description"></label> -->
             <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length === 1"><b>{{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}}</b></label>
             <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length > 1"><b>{{item.price[0].currency}} {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</b></label>
-            <label style="padding-bottom: 5px;"><b>{{item.title}}</b></label>
+            <label><b>{{item.title}}</b></label>
+            <installemnt-label :data="item.installment" v-if="item.installment !== null"></installemnt-label>
           </div>  
           <!-- <div class="products-price text-right" v-if="item.price !== null" style="width: 50%;float: left;padding: 5px;">
             <label>
@@ -105,7 +106,8 @@
   .product-title{
     width: 50%;
     float: left;
-    height: 50px;
+    min-height: 50px;
+    overflow-y: hidden;
   }
   
   .products-title label{
@@ -231,7 +233,8 @@ export default {
   props: ['data', 'listStyle'],
   components: {
     'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
-    'generic-filter': require('components/increment/imarketvue/marketplace/Filter.vue')
+    'generic-filter': require('components/increment/imarketvue/marketplace/Filter.vue'),
+    'installemnt-label': require('components/increment/imarketvue/installment/labelMarketplace.vue')
   },
   methods: {
     redirect(parameter){

@@ -15,7 +15,6 @@
 .installment-holder{
   width: 100%;
   float: left;
-  line-height: 30px;
 }
 </style>
 <script>
