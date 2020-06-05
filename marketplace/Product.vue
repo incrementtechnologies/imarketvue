@@ -80,8 +80,8 @@
         </div>
         <div class="product-row">
           <button class="btn btn-primary" @click="addToPost(data)">POST TO REQUEST</button>
-          <button class="btn btn-primary" @click="addToCart(data.id)">PROCEED WITH INSTALLMENT</button>
-          <button class="btn btn-primary" @click="redirect('/checkout')">PROCEED TO CHECKOUT</button>
+          <button class="btn btn-primary" @click="addToInstallment(data)">PROCEED WITH INSTALLMENT</button>
+          <!-- <button class="btn btn-primary" @click="redirect('/checkout')">PROCEED TO CHECKOUT</button> -->
           <button class="btn btn-danger" @click="addToWishlist(data.id)" v-if="data.wishlist_flag === false && data.checkout_flag === false"><i class="far fa-heart" style="padding-right: 10px;"></i>ADD TO WISHLIST</button>
         </div>
         <div class="product-row" v-if="data.sku !== null && data.sku !== ''">
@@ -434,6 +434,32 @@ export default {
         $('#loading').css({display: 'none'})
         this.retrieve()
       })
+    },
+    addToInstallment(data){
+      if(this.validate() === false){
+        return false
+      }
+      if(parseInt(this.data.qty) <= 0){
+        this.errorMessage = 'This is item is out of stock. Please be back soon!'
+        return false
+      }
+      let parameter = {
+        account_id: this.user.userID,
+        merchant_id: data.merchant_id,
+        product_id: data.id,
+        size: this.activeSize,
+        color: this.activeColor,
+        qty: this.qty,
+        status: 'pending'
+      }
+      $('#loading').css({display: 'block'})
+      this.APIRequest('installment_requests/create', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        if(response.data > 0){
+          this.redirect('/dashboard')
+        }
+      })
+      this.errorMessage = null
     },
     addToCart(id){
       if(this.validate() === false){

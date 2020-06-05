@@ -18,7 +18,6 @@
   float: left;
 }
 .product-image{
-  width: 20%;
   float: left;
   overflow-y: hidden;
   text-align: center;
@@ -32,8 +31,9 @@
 }
 
 .product-details{
-  width: 80%;
   float: left;
+  margin-left: 10px;
+  max-width: 80%;
 }
 
 .product-details label{
