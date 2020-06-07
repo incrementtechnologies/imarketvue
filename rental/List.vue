@@ -1,9 +1,11 @@
 <template>
   <div class="marketplace-holder">
     <div class="product-holder">
-      <generic-filter 
-        @changeSortEvent="retrieve($event.sort, $event.filter)">
-      </generic-filter>
+      <div class="filter">
+        <generic-filter 
+          @search="retrieve">
+        </generic-filter>
+      </div>
       <div class="results">
         <products v-if="data !== null" :data="data" :listStyle="listStyle"></products> 
         <dynamic-empty v-if="data === null" :title="'No products yet!'" :action="'Please be back soon.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></dynamic-empty>
@@ -20,15 +22,6 @@
   overflow-y: hidden;
   margin-bottom: 50px;
 }
-.banner{
-  width: 100%;
-  float: left;
-  min-height: 50px;
-  overflow-y: hidden;
-  padding: 20px;
-  background: #ffaa81;
-  margin-bottom: 15px;
-}
 .product-holder{
   width: 100%;
   float: left;
@@ -36,11 +29,18 @@
   overflow-y: hidden;
   margin-top: 25px;
 }
+
+.filter{
+  width: 100%;
+  float: left;
+  overflow-y: hidden;
+}
 .product-holder .results{
   width: 100%;
   font-size: left;
   min-height: 10px;
   overflow-y: hidden;
+  float: left;
 }
 .product-holder .list{
     display: flex;
@@ -113,7 +113,7 @@ import COMMON from 'src/common.js'
 import axios from 'axios'
 export default {
   mounted(){
-    this.retrieve({'title': 'asc'}, {column: 'title', value: ''})
+    this.retrieve()
   },
   data(){
     return {
@@ -136,39 +136,34 @@ export default {
         AUTH.mode = 1
       }
     },
-    retrieve(sort, filter){
-      let parameter = {
-        condition: [{
-          value: 'published',
-          column: 'status',
-          clause: '='
-        }, {
-          value: 'rental',
-          column: 'type',
-          clause: '='
-        }, {
-          value: filter.value + '%',
-          column: 'tags',
-          clause: 'like'
-        }],
-        sort: sort,
-        account_id: this.user.userID,
-        inventory_type: COMMON.ecommerce.inventoryType
-      }
-      $('#loading').css({display: 'block'})
-      this.APIRequest('products/retrieve_basic', parameter).then(response => {
-        $('#loading').css({display: 'none'})
-        if(response.data.length > 0){
-          this.data = response.data
-        }
-        console.log(this.data)
-      })
-    },
-    attachFile(){
-      alert('Attach FILE!')
-    },
-    attachTemplate(){
-      alert('Attach TEMPLATE!')
+    retrieve(filter = null){
+      console.log(filter)
+      // let parameter = {
+      //   condition: [{
+      //     value: 'published',
+      //     column: 'status',
+      //     clause: '='
+      //   }, {
+      //     value: 'rental',
+      //     column: 'type',
+      //     clause: '='
+      //   }, {
+      //     value: filter ? filter.value + '%' : '%',
+      //     column: 'tags',
+      //     clause: 'like'
+      //   }],
+      //   start_date: filter ? filter.start_date : null,
+      //   end_date: filter ? filter.end_date : null,
+      //   account_id: this.user.userID,
+      //   inventory_type: COMMON.ecommerce.inventoryType
+      // }
+      // $('#loading').css({display: 'block'})
+      // this.APIRequest('products/retrieve_basic', parameter).then(response => {
+      //   $('#loading').css({display: 'none'})
+      //   if(response.data.length > 0){
+      //     this.data = response.data
+      //   }
+      // })
     }
   }
 }
