@@ -1,211 +1,125 @@
 <template>
   <div v-if="data !== null">
-      <div class="product-holder" v-bind:class="listStyle" v-for="(item, index) in data" @click="redirect('marketplace/product/' + item.code)" :key="index"> 
+      <div class="product-holder" v-for="(item, index) in data" :key="index"> 
         <div class="product-image">
           <img :src="config.BACKEND_URL + item.featured[0].url" v-if="item.featured !== null">
           <i class="fas fa-image" v-else></i>
         </div> 
 
+        <div class="product-details">
+          <div class="product-title">
+            <span class="item title">
+              {{item.title}}
+            </span>
+            <span class="item">
+              <ratings :payload="'product'" :payloadValue="item.id"></ratings>
+            </span>
+            <span class="item">
+              <i class="fas fa-map-marker-alt"></i>
+            </span>
+          </div>
+        </div>
 
-        <div class="products-details">
-          <div class="products-title" :style="{width: item.price === null ? '100%' : '100%'}" style="float: left;">
-            
-            <!-- <label v-html="item.description"></label> -->
-            <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length === 1"><b>{{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}}</b></label>
-            <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length > 1"><b>{{item.price[0].currency}} {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</b></label>
-            <label><b>{{item.title}}</b></label>
-            <installemnt-label :data="item.installment" v-if="item.installment !== null"></installemnt-label>
-          </div>  
-          <!-- <div class="products-price text-right" v-if="item.price !== null" style="width: 50%;float: left;padding: 5px;">
-            <label>
-              <label v-if="item.price.length === 1">{{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}}</label>
-              <label v-if="item.price.length > 1">{{item.price[0].currency}} {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</label>
-            </label>
-          </div> -->
+        <div class="product-rate">
+          <span class="label">
+            Rate
+          </span>
+          <span class="price text-uppercase title">
+            {{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}} {{item.price[0].label ? 'per ' + item.price[0].label : ''}}
+          </span>
+          <span class="item">
+            <button class="btn btn-primary" style="margin: 10px !important;">
+              Book Now!
+            </button>
+          </span>
         </div>
       </div>
   </div>
   
 </template>
-<style scoped>
-  .text{
-    display: block;
-    /* width: 100px; */
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-  }
-
-  .price-label label:first-child{
-      padding-top: 5px;
-      margin-bottom: 0px !important;
-  }
-  .rating-holder{
-    margin-bottom: 20px;
-  }
-  .list-style{
-    display: flex;
-    flex-direction: column;
-  }
-  .fourColumn img{
-    max-width: 100%;
-    height: auto;
-    width: auto;
-    min-height: 300px;
-    max-height: 300px;
-    margin: 20px auto 20px auto;
-  }
+<style scoped lang="scss">
+@import "~assets/style/colors.scss";
   .product-holder{
     float: left;
     margin-right: 1%;
-    border: solid 1px #ddd;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: solid 1px #f2f2f2;
+    border-bottom: solid 10px #f2f2f2;
     margin-bottom: 10px;
     color: #555;
     margin-top: 0px;
     margin-bottom: 25px;
   }
-  .four-columns{
-    width: 24%;
-  }
-  .three-columns{
-    width: 32%;
-  }
-  .two-columns{
-    width: 49%;
-  }
+  
   .product-holder:hover{
     cursor: pointer;
-    border: solid 1px #ffaa81;
-    color: white;
-    background: #ffaa81;
+    border-bottom: solid 10px $primary;
   }
+
   .product-image{
-    width: 100%;
+    width: 20%;
     float: left;
     position: relative;
-    height: auto;
     text-align: center;
-    min-height: 200px;
+    min-height: 50px;
+    overflow-y: hidden;
   }
 
   .product-image img{
-    height: 250px;
-    float: left;
+    height: auto;
     width: 100%;
   }
   .product-image .fa-image{
     font-size: 150px;
     line-height: 250px;
   }
+
   .product-details{
-    height: 50px;
-    width: 100%;
-    float: left;
-    border-top: solid 1px #ddd;
-  }
-  .product-title{
+    min-height: 50px;
     width: 50%;
     float: left;
-    min-height: 50px;
     overflow-y: hidden;
   }
-  
-  .products-title label{
-    width: 96%;
+
+  .product-details .item{
+    width: 100%;
+    line-height: 45px;
     float: left;
-    font-size: 12px;
-    margin: 0px !important;
-    padding-left: 10px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap; 
   }
 
-  .product-star{
-    width: 50%;
-    float: left;
-    height: 50px;
+  .title{
+    font-size: 16px;
   }
-  .product-star label{
+
+  .product-rate{
+    min-height: 50px;
+    width: 30%;
+    float: left;
+    overflow-y: hidden;
+    border-left: solid 1px #f2f2f2;
+    border-bottom: solid 1px #f2f2f2;
+  }
+
+  .product-rate .label{
+    line-height: 45px;
+    text-align: center;
     width: 100%;
     float: left;
-    font-size: 10px;
-    margin: 0px !important;
-   
-  }
-  .product-price{
-    width: 50%;
-    float: left;
-    height: 50px;
+    background: $primary;
+    color: $white;
   }
 
-  .product-wishlist{
-    height: 50px;
+  .product-rate .price{
+    line-height: 100px;
     text-align: center;
-    line-height: 50px;
     width: 100%;
-    position: absolute;
-    top: 50%;
-    z-index: 10;
-    display: none;
-  }
-
-  .product-wishlist:hover, .product-wishlist i:hover, .product-wishlist label:hover{
-    cursor: pointer;
-  }
-
-  .product-wishlist label{
-    line-height: 50px;
     float: left;
-    width: 50%;
-    text-align: center;
-  }
-  
-  .product-wishlist i{
-    font-size: 32px;
-    line-height: 50px;
+    color: $primary;
   }
 
-  .product-holder:hover .product-wishlist{
-    display: block;
-  }
   @media (max-width: 991px){
-    .product-holder{
-      width: 90%;
-      margin-left: 5%;
-      margin-right: 5%;
-    }
   }
-
-.rating {
-  unicode-bidi: bidi-override;
-  direction: rtl;
-  text-align: left;
-}
-.rating > span {
-  display: inline-block;
-  position: relative;
-  width: 1.1em;
-}
-.rating > span:hover,
-.rating > span:hover ~ span {
-  color: transparent;
-}
-.rating > span:hover:before,
-.rating > span:hover ~ span:before {
-   content: "\2605";
-   position: absolute;
-   left: 0; 
-   color: gold;
-}
-
-label {
-    display: inline-grid;
-}
-
-body { padding: 100px; }
-
-
 </style>
 <script>
 import ROUTER from 'src/router'
@@ -230,9 +144,9 @@ export default {
       common: COMMON
     }
   },
-  props: ['data', 'listStyle'],
+  props: ['data'],
   components: {
-    'ratings': require('components/increment/generic/rating/DirectRatings.vue'),
+    'ratings': require('components/increment/generic/rating/Ratings.vue'),
     'generic-filter': require('components/increment/imarketvue/marketplace/Filter.vue'),
     'installemnt-label': require('components/increment/imarketvue/installment/labelMarketplace.vue')
   },
