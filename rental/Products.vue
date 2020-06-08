@@ -14,8 +14,9 @@
             <span class="item">
               <ratings :payload="'product'" :payloadValue="item.id"></ratings>
             </span>
-            <span class="item">
+            <span class="item" v-if="item.location !== null">
               <i class="fas fa-map-marker-alt"></i>
+              {{item.location.locality + ', ' + item.location.country}}
             </span>
           </div>
         </div>
@@ -28,7 +29,7 @@
             {{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}} {{item.price[0].label ? 'per ' + item.price[0].label : ''}}
           </span>
           <span class="item">
-            <button class="btn btn-primary" style="margin: 10px !important;">
+            <button class="btn btn-primary text-uppercase" style="margin: 10px !important;">
               Book Now!
             </button>
           </span>

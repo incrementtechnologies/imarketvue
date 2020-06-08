@@ -136,6 +136,10 @@
         <product-comments :payloadValue="data.id" :payload="'product'" :load="true"></product-comments>
       </div>
 
+      <div class="details-holder" v-if="selectedMenu.title === 'Location'">
+        <location :item="data"></location>
+      </div>
+
       <div class="details-holder-bundled" v-if="selectedMenu.title === 'Bundled Products'">
         <bundled-products :item="data"></bundled-products>
       </div>
@@ -428,6 +432,7 @@ export default {
     'bundled-products': require('components/increment/imarketvue/product/BundledProducts.vue'),
     'prices': require('components/increment/imarketvue/product/Prices.vue'),
     'installments': require('components/increment/imarketvue/product/Installments.vue'),
+    'location': require('components/increment/imarketvue/product/Location.vue'),
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
   methods: {

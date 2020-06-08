@@ -79,26 +79,13 @@ export default {
     },
     retrieve(filter = null){
       let parameter = {
-        condition: [{
-          value: 'published',
-          column: 'status',
-          clause: '='
-        }, {
-          value: 'rental',
-          column: 'type',
-          clause: '='
-        }, {
-          value: filter ? filter.value + '%' : '%',
-          column: 'tags',
-          clause: 'like'
-        }],
+        category: filter ? filter.category : '',
+        location: filter ? filter.location : '',
         start_date: filter ? filter.start_date : null,
-        end_date: filter ? filter.end_date : null,
-        account_id: this.user.userID,
-        inventory_type: COMMON.ecommerce.inventoryType
+        end_date: filter ? filter.end_date : null
       }
       $('#loading').css({display: 'block'})
-      this.APIRequest('products/retrieve_basic', parameter).then(response => {
+      this.APIRequest('rentals/search', parameter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
