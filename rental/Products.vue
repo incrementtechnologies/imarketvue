@@ -29,8 +29,8 @@
             {{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}} {{item.price[0].label ? 'per ' + item.price[0].label : ''}}
           </span>
           <span class="item">
-            <button class="btn btn-primary text-uppercase" style="margin: 10px !important;">
-              Book Now!
+            <button class="btn btn-primary text-uppercase" style="margin: 10px !important;" @click="redirect('/rental/booking/' + item.code + '/' + filter.start_date + '/' + filter.end_date)">
+              VIEW DETAILS
             </button>
           </span>
         </div>
@@ -145,7 +145,7 @@ export default {
       common: COMMON
     }
   },
-  props: ['data'],
+  props: ['data', 'filter'],
   components: {
     'ratings': require('components/increment/generic/rating/Ratings.vue'),
     'generic-filter': require('components/increment/imarketvue/marketplace/Filter.vue'),

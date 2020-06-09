@@ -7,7 +7,7 @@
         </generic-filter>
       </div>
       <div class="results">
-        <products v-if="data !== null" :data="data"></products> 
+        <products v-if="data !== null" :data="data" :filter="filter"></products> 
         <dynamic-empty v-if="data === null" :title="'No products yet!'" :action="'Please be back soon.'" :icon="'far fa-smile'" :iconColor="'text-primary'"></dynamic-empty>
       </div>
     </div>
@@ -54,7 +54,7 @@ import COMMON from 'src/common.js'
 import axios from 'axios'
 export default {
   mounted(){
-    this.retrieve()
+    this.retrieve(null)
   },
   data(){
     return {
@@ -62,7 +62,8 @@ export default {
       config: CONFIG,
       errorMessage: null,
       data: null,
-      common: COMMON
+      common: COMMON,
+      filter: null
     }
   },
   components: {
@@ -77,18 +78,18 @@ export default {
         AUTH.mode = 1
       }
     },
-    retrieve(filter = null){
-      let parameter = {
-        category: filter ? filter.category : '',
-        location: filter ? filter.location : '',
-        start_date: filter ? filter.start_date : null,
-        end_date: filter ? filter.end_date : null
+    retrieve(filter){
+      if(filter === null || (filter !== null && (filter.category === null || filter.location === null || filter.start_date === null || filter.end_date === null))){
+        return
       }
+      this.filter = filter
       $('#loading').css({display: 'block'})
-      this.APIRequest('rentals/search', parameter).then(response => {
+      this.APIRequest('rentals/search', filter).then(response => {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data
+        }else{
+          this.data = null
         }
       })
     }

@@ -25,13 +25,15 @@
           <label>Start Date</label>
           <date-picker
               v-model="startDate"
-              :type="'date'"
-              :value-type="'YYYY-MM-DD'"
+              :type="'datetime'"
+              :value-type="'YYYY-MM-DD HH:mm:ss'"
               :use12h="true"
               :placeholder="'Enter date'"
-              :format="'MMM D, YYYY'"
+              :format="'MMM D, YYYY hh:mm A'"
               :input-class="'form-control'"
               :disabled-date="beforeToday"
+              @clear="startDate = null, endDate = null"
+              @change="endDate = null"
               :input-attr="{style: 'height: 30px !important;border: 0px; padding-left: 0px; color: #999;'}"
             >
           </date-picker>
@@ -43,15 +45,15 @@
           <label>End Date</label>
           <date-picker
               v-model="endDate"
-              :type="'date'"
-              :value-type="'YYYY-MM-DD'"
+              :type="'datetime'"
+              :value-type="'YYYY-MM-DD HH:mm:ss'"
               :use12h="true"
               :placeholder="'Enter date'"
-              :format="'MMM D, YYYY'"
+              :format="'MMM D, YYYY hh:mm A'"
               :input-class="'form-control'"
               :disabled-date="afterStart"
-              :open="startDate && endDate === null ? true : false"
               :default-value="startDate"
+              :disabled-time="afterStartTime"
               :input-attr="{style: 'height: 30px !important;border: 0px; padding-left: 0px; color: #999;'}"
             >
           </date-picker>
@@ -166,7 +168,7 @@ export default {
       user: AUTH.user,
       config: CONFIG,
       common: COMMON,
-      selectedCategory: 'bikes',
+      selectedCategory: 'cars',
       countries: COUNTRIES,
       selectedLocation: null,
       startDate: null,
@@ -197,6 +199,10 @@ export default {
       let newDate = new Date(this.startDate)
       newDate.setDate(newDate.getDate() - 1)
       return date < newDate
+    },
+    afterStartTime(date){
+      let newDate = new Date(this.startDate)
+      return date <= newDate
     }
   }
 }
