@@ -1,5 +1,5 @@
 <template>
-  <div class="holder" v-if="data !== null">
+  <div class="product-list-holder" v-if="data !== null">
     <div class="product-image">
       <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="data.featured !== null">
       <i class="fa fa-image" v-if="data.featured === null"></i>
@@ -7,13 +7,13 @@
     <div class="product-details">
       <label><b>{{data.title}}</b></label>
       <!-- Please include shipping fees -->
-      <label class="text-primary">{{currency.displayWithCurrency(data.total, data.currency)}}</label>
+      <label class="text-primary text-uppercase">{{currency.displayWithCurrency(data.total, data.currency) + (data.price !== null && data.price[0].label !== null ? ' PER ' + data.price[0].label : '' )}}</label>
     </div>
   </div>
 </template>
 <style scoped lang="scss">
 @import "~assets/style/colors.scss";
-.holder{
+.product-list-holder{
   width: 100%;
   float: left;
 }
