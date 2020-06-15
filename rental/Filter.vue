@@ -11,7 +11,7 @@
         </increment-dropdown>
       </span>
 
-      <span class="inputs">
+      <span class="inputs" id="AutoComplete">
         <increment-autocomplete
           :label="'Location'"
           :placeholder="'Type location'"
@@ -105,6 +105,7 @@
   width: 20% !important;
   border-radius: 5px !important;
 }
+
 
 .input-holder{
   border-radius: 5px;

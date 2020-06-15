@@ -36,7 +36,9 @@
   overflow-y: hidden;
 }
 .product-holder .results{
-  width: 100%;
+  margin-top: 70px;
+  position: absolute;
+  width: 80%;
   font-size: left;
   min-height: 10px;
   overflow-y: hidden;
