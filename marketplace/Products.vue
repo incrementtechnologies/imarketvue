@@ -1,6 +1,6 @@
 <template>
   <div v-if="data !== null">
-      <div class="product-holder" v-bind:class="listStyle" v-for="(item, index) in data" @click="redirect('marketplace/product/' + item.code)" :key="index"> 
+      <div class="marketplace-product-holder" v-bind:class="listStyle" v-for="(item, index) in data" @click="redirect('marketplace/product/' + item.code)" :key="index"> 
         <div class="product-image">
           <img :src="config.BACKEND_URL + item.featured[0].url" v-if="item.featured !== null">
           <i class="fas fa-image" v-else></i>
@@ -55,7 +55,7 @@
     max-height: 300px;
     margin: 20px auto 20px auto;
   }
-  .product-holder{
+  .marketplace-product-holder{
     float: left;
     margin-right: 1%;
     border: solid 1px #ddd;
@@ -63,6 +63,7 @@
     color: #555;
     margin-top: 0px;
     margin-bottom: 25px;
+    padding-bottom: 10px;
   }
   .four-columns{
     width: 24%;
@@ -73,7 +74,7 @@
   .two-columns{
     width: 49%;
   }
-  .product-holder:hover{
+  .marketplace-product-holder:hover{
     cursor: pointer;
     border: solid 1px #ffaa81;
     color: white;
@@ -98,6 +99,7 @@
     line-height: 250px;
   }
   .product-details{
+    margin-bottom: 5px;
     height: 50px;
     width: 100%;
     float: left;
