@@ -198,7 +198,6 @@ export default {
         if(response.data.length > 0){
           this.data = response.data
         }
-        console.log(this.data)
       })
     },
     attachFile(){

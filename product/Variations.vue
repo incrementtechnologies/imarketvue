@@ -4,17 +4,22 @@
     <div class="form-group">
       <label for="exampleInputEmail1" style="font-weight: 600;">Variations</label>
       <div>
-        <select style="width: 45%; float: left;" class="form-control form-control-custom" v-model="newAttribute.payload">
+        <select style="width: 45%; float: left;" class="form-control form-control-custom" v-model="newAttribute.payload" @change="onSelect()">
           <option v-for="(item, index) in common.ecommerce.variations" :key="index" :value="item">{{item}}</option>
         </select>
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 40%; margin-left: 10px;" placeholder="Type variation value here..." v-model="newAttribute.payload_value" @keyup.enter="create()">
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 40%; margin-left: 10px;" placeholder="Type variation value here..." v-model="newAttribute.payload_value" @keyup.enter="create()" v-if="newAttribute.payload !== null && newAttribute.payload.toLowerCase() !== 'color'">
+
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 25%; margin-left: 10px;" placeholder="#ff0000" v-model="newAttribute.payload_value" @keyup.enter="create()" v-if="newAttribute.payload !== null && newAttribute.payload.toLowerCase() === 'color'">
+
+        <label class="form-control-custom color-viewer" style="float: left; width: 15%;" :style="{background: newAttribute.payload_value}" v-if="newAttribute.payload !== null && newAttribute.payload.toLowerCase() === 'color'"></label>
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="create()"><i class="fa fa-plus"></i></button>
       </div>
     </div>
     <div class="variations-content" v-if="item.variation !== null">
       <div class="attribute-item" v-for="itemVariation, indexVariation in item.variation">
         <input class="form-control form-control-custom" style="width: 40%; float: left; margin-right: 10px;" v-model="itemVariation.payload" placeholder="Type variation here...">
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 35%;" placeholder="Type variation value here..." v-model="itemVariation.payload_value" @keyup.enter="update(itemVariation)">
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 20%;" placeholder="Type variation value here..." v-model="itemVariation.payload_value" @keyup.enter="update(itemVariation)">
+        <label class="form-control-custom color-viewer" style="float: left; width: 15%;" :style="{background: itemVariation.payload_value}" v-if="itemVariation.payload.toLowerCase() === 'color'"></label>
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="update(itemVariation)">
           <i class="fa fa-sync"></i>
         </button>
@@ -59,6 +64,11 @@
 .form-control-custom{
   height: 50px !important;
 }
+
+.color-viewer{
+  border-radius: 5px;
+  margin-left: 5px;
+}
 </style>
 <script>
 import ROUTER from 'src/router'
@@ -98,6 +108,13 @@ export default {
         })
       }else{
         this.errorMessage = 'Fill up the required fields.'
+      }
+    },
+    onSelect(){
+      if(this.newAttribute.payload !== null && this.newAttribute.payload.toLowerCase() === 'color'){
+        this.newAttribute.payload_value = '#ff0000'
+      }else{
+        this.newAttribute.payload_value = null
       }
     },
     deleteItem(item){

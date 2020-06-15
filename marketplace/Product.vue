@@ -1,12 +1,12 @@
 <template>
   <div v-if="data !== null">
     <div class="title" v-if="status === 'preview'">
-      <b @click="redirect('/product/edit/' + data.code)">
+      <b @click="redirectBack()">
         <label class="text-primary action-link">Back</label>
       </b>
     </div>
     <div class="title" v-if="status !== 'preview'">
-      <b @click="redirect('/marketplace')">
+      <b @click="redirectBack()">
         <label class="text-primary action-link">Marketplace</label>
       </b>
       <label class="text-primary">/ {{data.title}}</label>
@@ -377,6 +377,9 @@ export default {
       }else{
         AUTH.redirect(parameter)
       }
+    },
+    redirectBack(){
+      ROUTER.go(-1)
     },
     selectMenu(index){
       if(this.prevMenuIndex !== index){

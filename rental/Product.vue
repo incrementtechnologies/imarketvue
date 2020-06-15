@@ -393,6 +393,32 @@ export default {
     selectImage(url){
       this.selectedImage = url
     },
+    bookNow(data){
+      if(data.schedule !== null){
+        this.errorMessage = 'Selected date is not available.'
+        return
+      }
+      if(this.startDate === null || this.endDate === null){
+        this.errorMessage = 'Start and end date are required.'
+        return
+      }
+      let parameter = {
+        account_id: this.user.userID,
+        merchant_id: data.merchant_id,
+        product_id: data.id,
+        start: this.startDate,
+        end: this.endDate,
+        status: 'pending'
+      }
+      $('#loading').css({display: 'block'})
+      this.APIRequest('rentals/create', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        if(response.data > 0){
+          this.redirect('/dashboard')
+        }
+      })
+      this.errorMessage = null
+    },
     retrieve(){
       if(this.startDate === null || this.endDate === null){
         return

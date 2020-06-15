@@ -1,6 +1,6 @@
 <template>
 	<div class="holder">
-    <create :type="type"></create>
+    <create :type="type" v-if="user.subAccount.merchant !== null && user.subAccount.merchant.status === 'verified'"></create>
     <filter-product v-bind:category="category" 
       :activeCategoryIndex="0"
       :activeSortingIndex="0"
