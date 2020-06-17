@@ -109,7 +109,7 @@
 
 .input-holder{
   border-radius: 5px;
-  min-height: 50px;
+  min-height: 60px;
   overflow-y: hidden;
   border-color: #ccc;
   width: 100%;
