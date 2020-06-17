@@ -63,7 +63,6 @@
     color: #555;
     margin-top: 0px;
     margin-bottom: 25px;
-    padding-bottom: 10px;
   }
   .four-columns{
     width: 24%;
