@@ -28,7 +28,7 @@
                 <span class="badge text-uppercase" :class="{'badge-warning': item.status === 'pending', 'badge-danger': item.status === 'declined', 'badge-primary': item.status === 'confirmed'}">{{item.status}} </span>
               </td>
               <td>
-                <button class="btn btn-primary" v-if="item.status !== 'declined'" @click="confirm(item)">Confirm</button>
+                <button class="btn btn-primary" v-if="item.status !== 'declined'" @click="confirmRequest(item)">Confirm</button>
                 <button class="btn btn-danger" @click="update(item.id)" v-if="item.status !== 'declined'">Decline</button>
               </td>
             </tr>
@@ -128,7 +128,7 @@ export default {
         }
       })
     },
-    confirm(id){
+    confirmRequest(id){
       let parameter = {
         id: id
       }
