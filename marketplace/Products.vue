@@ -7,8 +7,8 @@
         </div> 
 
 
-        <div class="products-details">
-          <div class="products-title" :style="{width: item.price === null ? '100%' : '100%'}" style="float: left;">
+        <div class="product-details">
+          <div class="product-title" :style="{width: item.price === null ? '100%' : '100%'}" style="float: left;">
             
             <!-- <label v-html="item.description"></label> -->
             <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length === 1"><b>{{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}}</b></label>
@@ -86,10 +86,11 @@
     height: auto;
     text-align: center;
     min-height: 200px;
+    overflow-y: hidden;
   }
 
   .product-image img{
-    height: 250px;
+    height: auto;
     float: left;
     width: 100%;
   }
@@ -98,7 +99,7 @@
     line-height: 250px;
   }
   .product-details{
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     height: 50px;
     width: 100%;
     float: left;
@@ -108,10 +109,9 @@
     width: 50%;
     float: left;
     min-height: 50px;
-    overflow-y: hidden;
   }
   
-  .products-title label{
+  .product-title label{
     width: 96%;
     float: left;
     font-size: 12px;
