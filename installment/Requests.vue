@@ -28,8 +28,9 @@
                 <span class="badge text-uppercase" :class="{'badge-warning': item.status === 'pending', 'badge-danger': item.status === 'declined', 'badge-primary': item.status === 'confirmed'}">{{item.status}} </span>
               </td>
               <td>
-                <button class="btn btn-primary" v-if="item.status !== 'declined'" @click="confirm(item)">Confirm</button>
-                <button class="btn btn-danger" @click="update(item.id)" v-if="item.status !== 'declined'">Decline</button>
+                <button class="btn btn-primary" v-if="item.status !== 'declined' && item.thread === null" @click="confirmRequest(item)">Confirm</button>
+                <button class="btn btn-danger" @click="update(item.id)" v-if="item.status !== 'declined' && item.thread === null">Decline</button>
+                <i class="fas fa-envelope text-primary" v-if="item.thread !== null" @click="redirect('/thread/' + item.thread.title)"></i>
               </td>
             </tr>
           </tbody>
@@ -128,13 +129,19 @@ export default {
         }
       })
     },
-    confirm(id){
+    confirmRequest(item){
       let parameter = {
-        id: id
+        member: item.account_id,
+        title: item.code,
+        payload: 'installment',
+        creator: this.user.userID
       }
       $('#loading').css({display: 'block'})
-      this.APIRequest('installment_requests/create_thread', parameter).then(response => {
+      this.APIRequest('custom_messenger_groups/create', parameter).then(response => {
         $('#loading').css({display: 'none'})
+        if(response.data > 0){
+          this.redirect('/thread/' + item.code)
+        }
       })
     },
     update(id){
