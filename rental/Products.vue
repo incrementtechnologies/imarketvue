@@ -42,6 +42,7 @@
 @import "~assets/style/colors.scss";
   .product-holder{
     float: left;
+    width: 100%;
     margin-right: 1%;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
