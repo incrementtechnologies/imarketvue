@@ -48,7 +48,6 @@
     line-height: 150px;
     width: 150px;
   }
-
   .product-details{
     min-height: 50px;
     width: 70%;

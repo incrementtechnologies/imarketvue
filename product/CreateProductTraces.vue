@@ -26,14 +26,12 @@
                 <option v-for="i in 31" :key="i" :value="i">{{i}}</option>
               </select>
             </div>
-
             <div class="form-group form-group-three margin-right">
               <label for="exampleInputEmail1">Month <b class="text-danger">*</b></label>
               <select class="form-control" v-model="manufacturing.month">
                 <option v-for="(item, index) in months" :key="index" :value="item.code">{{item.title}}</option>
               </select>
             </div>
-
             <div class="form-group form-group-three margin-left">
               <label for="exampleInputEmail1">Year <b class="text-danger">*</b></label>
               <input type="number" class="form-control" placeholder="YYYY" v-model="manufacturing.year">
@@ -71,7 +69,6 @@
 .bg-primary{
   background: $primary !important;
 }
-
 .form-control{
   height: 50px !important;
 }
@@ -79,23 +76,18 @@
   width: 30% !important;
   float: left;
 }
-
 .margin-left{
   margin-left: 4%;
 }
-
 .margin-right{
   margin-right: 3%;
 }
-
 .mx-datepicker,
 .mx-input-wrapper {
   width: unset;
   position: unset;
   display: unset;
 }
-
-
 @media (max-width: 991px){
   .form-group-three{
     width: 100% !important;

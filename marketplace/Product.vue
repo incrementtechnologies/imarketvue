@@ -253,11 +253,9 @@
     margin-right: 5px;
     line-height: 36px;
   }
-
   .active-color{
     border: solid 2px #ffaa81;
   }
-
   .attribute-flexible{
     width: auto;
     padding-right: 10px;
@@ -322,12 +320,10 @@
     .product-menu, .product-more-details .details-holder{
       width: 100%;
     }
-
   }
   button.btn.btn-primary.two {
     min-width: 133px;
 }
-
 </style>
 <script>
 import ROUTER from 'src/router'

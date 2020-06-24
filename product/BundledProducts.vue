@@ -130,7 +130,6 @@ export default {
       errorMessage: null
     }
   },
-
   components: {
     'empty': require('components/increment/generic/empty/EmptyDynamicIcon.vue')
   },

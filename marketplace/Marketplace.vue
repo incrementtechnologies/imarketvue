@@ -96,7 +96,6 @@ select.btn.btn-white {
 button.btn.btn-primary.dropdown-toggle {
     min-height: 40px;
 }
-
 option {
     display: inline-block;
     width: 0;
