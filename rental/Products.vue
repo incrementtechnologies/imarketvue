@@ -42,6 +42,7 @@
 @import "~assets/style/colors.scss";
   .product-holder{
     float: left;
+    width: 100%;
     margin-right: 1%;
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -61,15 +62,16 @@
   .product-image{
     width: 20%;
     float: left;
-    position: relative;
+    position: absolute;
     text-align: center;
     min-height: 50px;
     overflow-y: hidden;
   }
 
   .product-image img{
-    height: auto;
-    width: 100%;
+    float: left;
+    max-height: 200px;
+    max-width: 230px;
   }
   .product-image .fa-image{
     font-size: 150px;
@@ -81,6 +83,8 @@
     width: 50%;
     float: left;
     overflow-y: hidden;
+    position: absolute;
+    margin-left: 250px;
   }
 
   .product-details .item{
@@ -96,10 +100,11 @@
   .product-rate{
     min-height: 50px;
     width: 30%;
-    float: left;
+    float: right;
     overflow-y: hidden;
     border-left: solid 1px #f2f2f2;
     border-bottom: solid 1px #f2f2f2;
+    margin-left: 950px;
   }
 
   .product-rate .label{
