@@ -85,13 +85,12 @@
     position: relative;
     height: auto;
     text-align: center;
-    min-height: 220px;
     overflow-y: hidden;
   }
 
   .product-image img{
     height: auto;
-    min-height: 220px;
+    min-height: 250px;
     float: left;
     width: 100%;
   }
