@@ -89,8 +89,7 @@
   }
 
   .product-image img{
-    height: auto;
-    min-height: 250px;
+    height: 250px;
     float: left;
     width: 100%;
   }
