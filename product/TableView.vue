@@ -20,6 +20,7 @@
              <button class="btn btn-primary" @click="redirect('/traces/' + item.code)" title="Total active trace">{{parseInt(item.qty)}}</button>
           </td>
           <td >
+            <button class="btn btn-danger" @click="deleteProduct(item)" data-toggle="modal" data-target="#delete"><i class="fas fa-trash-alt"></i>Delete</button>
             <button class="btn btn-primary" @click="redirect('/product/edit/' + item.code)">EDIT</button>
             <button class="btn btn-warning" @click="showModal('create', item)" v-if="item.type === 'regular' && item.status === 'published'">Add Inventory</button>
           </td>
@@ -31,6 +32,28 @@
 
     <create-modal :property="createProductTraceModal"></create-modal>
     <create-product-traces-modal :params="productId"></create-product-traces-modal>
+
+    <!-- DELETE PRODUCT MODAL -->
+    <div class="modal fade right" id="delete" tabindex="-1" role="dialog" aria-labelledby="deleteHeader"
+     aria-hidden="true">
+      <div class="modal-dialog modal-side modal-notify modal-primary" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="deleteheader">Delete Product</h5>
+            <button type="button" class="close" aria-label="Close" data-dismiss="modal" @click="selectedBranch = null">
+              <span aria-hidden="true" class="white-text">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body p-4">
+            Are you sure you want to delete this product?
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-dark" data-dismiss="modal" @click="selectedBranch = null">Cancel</button>
+            <button class="btn btn-secondary" data-dismiss="modal" @click="deleteProduct(item)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 <style>
@@ -104,6 +127,17 @@ export default {
     },
     retrieve(sort){
       this.$parent.retrieve(null, null)
+    },
+    deleteProduct(item){
+      let params = {
+        id: item.id
+      }
+      console.log(item.id)
+      $('#loading').css({display: 'block'})
+      this.APIRequest('products/delete', params).then(response => {
+        $('#loading').css({display: 'none'})
+        this.retrieve({'title': 'asc'})
+      })
     }
   }
 }

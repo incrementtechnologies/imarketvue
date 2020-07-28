@@ -468,6 +468,7 @@ export default {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data[0]
+          console.log(this.data)
         }
       })
     },
