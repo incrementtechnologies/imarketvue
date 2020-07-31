@@ -15,8 +15,8 @@
       </div>
       <div class="products-details">
         <div class="products-title" :style="{width: item.price === null ? '100%' : '100%'}">
-          <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length === 1"><b>{{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}}</b></label>
-            <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length > 1"><b>{{item.price[0].currency}} {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</b></label>
+          <!-- <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length === 1"><b>{{currency.displayWithCurrency(item.price[0].price, item.price[0].currency)}}</b></label>
+            <label class="text-primary" style="padding-top: 5px;" v-if="item.price.length > 1"><b>{{item.price[0].currency}} {{item.price[item.price.length - 1].price + ' - ' + item.price[0].price}}</b></label> -->
             <label style="padding-bottom: 5px;"><b>{{item.title}}</b></label>
         </div>  
         <!-- <div class="products-price" v-if="item.price === null">
