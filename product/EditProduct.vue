@@ -92,6 +92,13 @@
         </div>
         <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null">
         <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null">
+        <b-embed
+        type="iframe"
+        v-else-if="getFileType(config.BACKEND_URL + selectedImage) === 'vid'"
+        aspect="16by9"
+        :src="config.BACKEND_URL + selectedImage"
+        allowfullscreen
+        ></b-embed>
         <i class="fa fa-image" v-if="selectedImage === null && data.featured === null"></i>
         <label class="remove-image text-danger" id="featured-image-remove" @click="removeImage(data.featured[0].id)" v-if="selectedImage === null && data.featured !== null">
           <i class="fa fa-times"></i>
@@ -104,7 +111,14 @@
           </label>
         </div>
         <div v-for="item, index in data.images" class="image-item" @click="selectImage(item.url)" style="position: relative;">
-          <img :src="config.BACKEND_URL + item.url" class="other-image">
+          <img :src="config.BACKEND_URL + item.url" class="other-image" v-if="getFileType(config.BACKEND_URL + item.url) === 'img'">
+          <b-embed
+          type="video"
+          v-else-if="getFileType(config.BACKEND_URL + item.url) === 'vid'"
+          aspect="16by9"
+          :src="config.BACKEND_URL + item.url"
+          allowfullscreen
+          ></b-embed>
           <div class="overlay"></div>
           <label class="remove-image text-danger" id="other-images-remove" @click="removeImage(item.id)" v-if="item.status !== 'featured'">
             <i class="fa fa-times"></i>
@@ -436,6 +450,10 @@ export default {
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
   methods: {
+    getFileType(url){
+      console.log(url.substring(url.lastIndexOf('.')))
+      return url.substring(url.lastIndexOf('.')) === '.webm' ? 'vid' : 'img'
+    },
     redirect(parameter){
       ROUTER.push(parameter)
     },

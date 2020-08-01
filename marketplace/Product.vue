@@ -13,12 +13,26 @@
     </div>
     <div class="product-item-holder">
       <div class="product-image">
-        <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null">
-        <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null">
+        <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null && getFileType(selectedImage) === 'img'">
+        <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null && getFileType(data.featured[0].url) === 'img'">
+        <b-embed
+        type="iframe"
+        v-else-if="data.featured !== null && getFileType(selectedImage) === 'vid'"
+        aspect="16by9"
+        :src="config.BACKEND_URL + selectedImage"
+        allowfullscreen
+        ></b-embed>
         <i class="fa fa-image" v-if="selectedImage === null && data.featured === null"></i>
        <div class="images-holder" v-if="data.images !== null">
         <div v-for="(item, index) in data.images" :key="index" class="image-item" @click="selectImage(item.url)">
-          <img :src="config.BACKEND_URL + item.url" class="other-image">
+          <img :src="config.BACKEND_URL + item.url" class="other-image" v-if="getFileType(config.BACKEND_URL + item.url) === 'img'">
+          <b-embed
+          type="video"
+          v-else-if="getFileType(config.BACKEND_URL + item.url) === 'vid'"
+          aspect="16by9"
+          :src="config.BACKEND_URL + item.url"
+          allowfullscreen
+          ></b-embed>
           <div class="overlay"></div>
         </div>
        </div>
@@ -366,6 +380,10 @@ export default {
     'installemnt-label': require('components/increment/imarketvue/installment/label.vue')
   },
   methods: {
+    getFileType(url){
+      console.log(url.substring(url.lastIndexOf('.')))
+      return url.substring(url.lastIndexOf('.')) === '.webm' ? 'vid' : 'img'
+    },
     redirect(parameter){
       ROUTER.push(parameter)
       if(parameter === 'editor/v2'){
