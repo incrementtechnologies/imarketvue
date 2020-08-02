@@ -61,7 +61,7 @@
             </div>
           </div>
         </div>
-        <div class="product-item-title" style="width: 49% !important; margin-right: 1%;">
+        <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
           <label>Type of product</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.type">
@@ -69,12 +69,20 @@
             <option value="rental">Rental</option>
           </select>
         </div>
-        <div class="product-item-title" style="width: 49% !important;margin-left: 1%;">
+        <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
+          <label>Type of product</label>
+          <br>
+          <select class="form-control form-control-custom" v-model="data.category">
+            <option v-for="(item, index) in categories" :value="item.value">{{item.name}}</option>
+          </select>
+        </div>
+        <div class="product-item-title" style="width: 32% !important;margin-left: 1%;">
           <label>Status</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.status">
             <option value="pending">Pending</option>
             <option value="published">Published</option>
+            <option value="Featured">Featured</option>
           </select>
         </div>
         <div class="product-item-title">
@@ -406,6 +414,13 @@ export default {
       errorMessage: null,
       data: null,
       code: this.$route.params.code,
+      categories: [
+        {name: 'Native', value: 'cat1'},
+        {name: 'Fast food', value: 'cat2'},
+        {name: 'Casual dining', value: 'cat3'},
+        {name: 'Family Style', value: 'cat4'},
+        {name: 'Fine Dining', value: 'cat5'}
+      ],
       prevMenuIndex: 0,
       selectedMenu: COMMON.ecommerce.editProductMenu[0],
       selectedImage: null,
@@ -502,19 +517,24 @@ export default {
     },
     validate(){
       this.errorMessage = null
+      let ret = true
       if(this.data.title === null || this.data.title === ''){
         this.errorMessage = 'Title is required.'
-        return false
+        ret = false
       }
       if(this.data.description === '' || this.data.description === null){
         this.errorMessage = 'Description is required.'
-        return false
+        ret = false
       }
       if(typeof this.common.ecommerce.productTitleLimit !== undefined && typeof this.common.ecommerce.productTitleLimit !== 'undefined' && this.data.title.length > this.common.ecommerce.productTitleLimit){
         this.errorMessage = 'Product title length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
-        return false
+        ret = false
       }
-      return true
+      if(!this.data.category){
+        this.errorMessage = 'Category is required.'
+        ret = false
+      }
+      return ret
     },
     updateProduct(){
       if(this.validate() === false){
