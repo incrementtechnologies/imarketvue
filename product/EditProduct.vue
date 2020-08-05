@@ -166,7 +166,7 @@
         <bundled-products :item="data"></bundled-products>
       </div>
     </div>
-    <browse-images-modal></browse-images-modal>
+    <browse-images-modal :fileUpload="'images/*,video/*'"></browse-images-modal>
     <confirmation ref="confirmationModal" :title="'Confirmation Message'" :message="'Are you sure you want delete this product?'" @onConfirm="deleteProduct($event.id)"></confirmation>
   </div>
 </template>
