@@ -15,7 +15,7 @@
                 Title
               </th>
               <th>Quantity</th>
-              <th>Notes</th>
+              <th>Total</th>
               <th>Actions</th>
             </thead>
             <tbody>
@@ -25,13 +25,22 @@
                   {{item.title}}
                 </td>
                 <td>{{item.qty}}</td>
-                <td>{{item.notes}}</td>
+                <td>
+                  {{currency.displayWithCurrency(item.price, item.currency ? item.currency : 'PHP')}} x {{item.qty}} = {{currency.displayWithCurrency(item.price * item.qty, item.currency ? item.currency : 'PHP')}}
+                </td>
                 <td>
                   <button class="btn btn-primary" @click="item.status = 'completed'" v-if="item.status !== 'completed'">Complete</button>
                 </td>
               </tr>
             </tbody>
           </table>
+          <div class="form-group" v-if="checkout.notes">
+            <label>Additional Information</label>
+            <br>
+            <label class="alert alert-danger">
+              {{item.notes}}
+            </label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" @click="hideModal()">Close</button>
@@ -52,19 +61,24 @@ import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 import COMMON from 'src/common.js'
+import CURRENCY from 'src/services/currency.js'
 export default {
   mounted(){
   },
   data(){
     return {
       user: AUTH.user,
-      config: CONFIG
+      config: CONFIG,
+      currency: CURRENCY
     }
   },
   props: ['data', 'checkout'],
   methods: {
     hideModal(){
       $('#viewProductOnModal').modal('hide')
+    },
+    showModal(){
+      $('#viewProductOnModal').modal('show')
     },
     confirm(){
       let parameter = {
