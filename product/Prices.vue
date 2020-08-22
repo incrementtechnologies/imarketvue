@@ -38,6 +38,7 @@
 
         <select class="form-control form-control-custom" style="width: 20%; float: left; margin-left: 1%;" v-model="itemI.type">
           <option value="fixed">Fixed</option>
+          <option value="variable">Variable</option>
         </select>
 
         <select class="form-control form-control-custom" style="width: 20%; float: left;margin-left: 1%;" v-model="itemI.label" v-if="item.type === 'rental'">
@@ -47,7 +48,11 @@
           <option value="month">Per Month</option>
         </select>
 
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 18%; margin-left: 1%;" placeholder="Type price here" v-model="itemI.price" @keyup.enter="updateRequest(itemI)" v-if="itemI.type === 'fixed'">
+        <span v-if="itemI.type === 'fixed'"> <input type="text" class="form-control form-control-custom" style="float: left; width: 18%; margin-left: 1%;" placeholder="Type price here" v-model="itemI.price" @keyup.enter="updateRequest(itemI)"></span>
+        <span v-else-if="itemI.type ==='variable'">
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 18%; margin-left: 1%;" placeholder="Type minimum price here" v-model="itemI.minimum" @keyup.enter="updateRequest(itemI)">
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 18%; margin-left: 1%;" placeholder="Type maximum price here" v-model="itemI.maximum" @keyup.enter="updateRequest(itemI)">
+        </span>
         <button class="btn btn-danger form-control-custom pull-right" style="margin-left: 10px;" @click="deleteRequest(itemI.id)"><i class="fa fa-trash"></i></button>
         <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="updateRequest(itemI)"><i class="fa fa-sync"></i></button>
       </div>
