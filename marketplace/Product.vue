@@ -93,7 +93,7 @@
           <span style="width: 100%'" class="alert alert-danger">Out of stock.</span>
         </div>
         <div class="product-row">
-          <button class="btn btn-primary" @click="addToPost(data)">POST TO REQUEST</button>
+          <button class="btn btn-primary" @click="addToPost(data)">Buy Now</button>
           <button class="btn btn-primary" @click="addToInstallment(data)">PROCEED WITH INSTALLMENT</button>
           <!-- <button class="btn btn-primary" @click="redirect('/checkout')">PROCEED TO CHECKOUT</button> -->
           <button class="btn btn-danger" @click="addToWishlist(data.id)" v-if="data.wishlist_flag === false && data.checkout_flag === false"><i class="far fa-heart" style="padding-right: 10px;"></i>ADD TO WISHLIST</button>

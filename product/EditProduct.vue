@@ -65,15 +65,7 @@
           <label>Type of product</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.type">
-            <option value="regular">Regular</option>
-            <option value="rental">Rental</option>
-          </select>
-        </div>
-        <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
-          <label>Type of product</label>
-          <br>
-          <select class="form-control form-control-custom" v-model="data.category">
-            <option v-for="(item, index) in categories" :value="item.value">{{item.name}}</option>
+            <option value="Food/Restaurant">Food/Restaurant</option>
           </select>
         </div>
         <div class="product-item-title" style="width: 32% !important;margin-left: 1%;">
@@ -83,6 +75,7 @@
             <option value="pending">Pending</option>
             <option value="published">Published</option>
             <option value="Featured">Featured</option>
+            <option value="Featured">Out of Stock</option>
           </select>
         </div>
         <div class="product-item-title">
