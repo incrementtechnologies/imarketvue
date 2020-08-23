@@ -9,6 +9,7 @@
               <span aria-hidden="true" class="text-white">&times;</span>
             </button>
           </div>
+
           <div class="modal-body">
             <table class="table table-responsive" v-if="data !== null">
               <thead>
@@ -16,7 +17,7 @@
                   Title
                 </th>
                 <th>Quantity</th>
-                <th>Notes</th>
+                <th>Total</th>
                 <th>Actions</th>
               </thead>
               <tbody>
@@ -26,21 +27,32 @@
                     {{item.title}}
                   </td>
                   <td>{{item.qty}}</td>
-                  <td>{{item.notes}}</td>
                   <td>
-                    <button class="btn btn-success" @click="item.status = 'completed', completeItem(item, true)" v-if="item.status !== 'completed'">Complete</button>
+                    {{currency.displayWithCurrency(item.price, item.currency ? item.currency : 'PHP')}} x {{item.qty}} = {{currency.displayWithCurrency(item.price * item.qty, item.currency ? item.currency : 'PHP')}}
+                  </td>
+                  <td>
+                    <button class="btn btn-primary" @click="item.status = 'completed'" v-if="item.status !== 'completed'">Complete</button>
                   </td>
                 </tr>
               </tbody>
             </table>
+            <div class="form-group" v-if="checkout.notes">
+              <label>Additional Information</label>
+              <br>
+              <label class="alert alert-danger">
+                {{item.notes}}
+              </label>
+            </div>
           </div>
+          
           <div class="modal-footer">
-            <button type="button" class="btn btn-danger" @click="hideModal('main')">Close</button>
+            <button type="button" class="btn btn-danger" @click="hideModal()">Close</button>
             <button type="button" class="btn btn-primary" @click="confirm()">Submit</button>
           </div>
         </div>
       </div>
     </div>
+
     <div class="modal fade" id="confirmComplete" tabindex="-1" role="dialog" aria-labelledby="confirmHeader" aria-hidden="true">
       <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -79,6 +91,7 @@ import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 import COMMON from 'src/common.js'
+import CURRENCY from 'src/services/currency.js'
 export default {
   mounted(){
   },
@@ -87,7 +100,8 @@ export default {
       user: AUTH.user,
       config: CONFIG,
       complete: true,
-      confirmAll: false
+      confirmAll: false,
+      currency: CURRENCY
     }
   },
   props: ['data', 'checkout'],
@@ -124,6 +138,9 @@ export default {
           this.completeOrder()
         }
       })
+    },
+    showModal(){
+      $('#viewProductOnModal').modal('show')
     },
     confirm() {
       $('#viewProductOnModal .error').remove()
