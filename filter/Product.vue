@@ -87,7 +87,7 @@
   font-size: 24px;
   right: 50px;
   top: 0px;
-  z-index: 1000;
+  z-index: 10;
 }
 
 .mx-datepicker,

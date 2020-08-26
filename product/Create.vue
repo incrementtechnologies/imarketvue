@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#createProductModal" style="margin-bottom: 25px;"><i class="fa fa-plus"></i> New Product
+    <button class="btn btn-primary pull-right" data-toggle="modal" data-target="#createProductModal" style="margin-bottom: 25px; float:right"><i class="fa fa-plus"></i> New Product
     </button>
     <div class="modal fade" id="createProductModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
       <div class="modal-dialog modal-md" role="document">
@@ -25,15 +25,15 @@
               <label for="exampleInputEmail1">Description</label>
               <input type="text" class="form-control" placeholder="Type description here..." v-model="description">
             </div>
-            <div class="form-group">
+            <!-- <div class="form-group">
               <input class="form-check-input" type="checkbox" v-model="option" id="defaultCheck1" style="margin-left: 0px;">
               <label class="form-check-label" for="defaultCheck1">
                 Create as Bundled Product
               </label>
-            </div>
+            </div> -->
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#createProductModal">Cancel</button>
+              <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#createProductModal" @click="cancel()">Cancel</button>
               <button type="button" class="btn btn-primary" @click="submit()">Submit</button>
           </div>
         </div>
@@ -43,6 +43,7 @@
 </template>
 <style scoped lang="scss">
 @import "~assets/style/colors.scss";
+
 .bg-primary{
   background: $primary !important;
 }
@@ -128,6 +129,11 @@ export default {
         return false
       }
       return true
+    },
+    cancel(){
+      this.title = ''
+      this.description = ''
+      // this.option = false
     }
   }
 }
