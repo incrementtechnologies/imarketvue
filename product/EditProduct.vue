@@ -62,20 +62,28 @@
           </div>
         </div>
         <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
-          <label>Type of product</label>
+          <label>Foods</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.type">
-            <option value="Food/Restaurant">Food/Restaurant</option>
+            <option value="regular">Regular</option>
+            <option value="rental">Rental</option>
           </select>
         </div>
+        <!-- <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
+          <label>Type of product</label>
+          <br>
+          <select class="form-control form-control-custom" v-model="data.category">
+            <option v-for="(item, index) in categories" :value="item.value">{{item.name}}</option>
+          </select>
+        </div> -->
         <div class="product-item-title" style="width: 32% !important;margin-left: 1%;">
           <label>Status</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.status">
             <option value="pending">Pending</option>
-            <option value="published">Published</option>
-            <option value="Featured">Featured</option>
-            <option value="Featured">Out of Stock</option>
+            <option value="published">Publish</option>
+            <option value="Featured">Feature</option>
+            <option value="outOfStock">Out of Stock</option>
           </select>
         </div>
         <div class="product-item-title">
@@ -407,13 +415,13 @@ export default {
       errorMessage: null,
       data: null,
       code: this.$route.params.code,
-      categories: [
-        {name: 'Native', value: 'cat1'},
-        {name: 'Fast food', value: 'cat2'},
-        {name: 'Casual dining', value: 'cat3'},
-        {name: 'Family Style', value: 'cat4'},
-        {name: 'Fine Dining', value: 'cat5'}
-      ],
+      // categories: [
+      //   {name: 'Native', value: 'cat1'},
+      //   {name: 'Fast food', value: 'cat2'},
+      //   {name: 'Casual dining', value: 'cat3'},
+      //   {name: 'Family Style', value: 'cat4'},
+      //   {name: 'Fine Dining', value: 'cat5'}
+      // ],
       prevMenuIndex: 0,
       selectedMenu: COMMON.ecommerce.editProductMenu[0],
       selectedImage: null,
@@ -523,10 +531,10 @@ export default {
         this.errorMessage = 'Product title length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
         ret = false
       }
-      if(!this.data.category){
-        this.errorMessage = 'Category is required.'
-        ret = false
-      }
+      // if(!this.data.category){
+      //   this.errorMessage = 'Category is required.'
+      //   ret = false
+      // }
       return ret
     },
     updateProduct(){
