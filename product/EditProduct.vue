@@ -56,7 +56,7 @@
               <label>Units</label>
               <br>
               <select class="form-control form-control-custom" v-model="newAttribute.payload">
-                <option v-for="(item, index) in common.ecommerce.productUnits" :value="item">{{item}}</option>
+                <option v-for="(item, index) in common.ecommerce.productUnits" :value="item" :key="index">{{item}}</option>
               </select>
             </div>
           </div>
@@ -377,14 +377,14 @@
   #featured-image-remove{
     top: 50px;
     right: 5px;
-    z-index: 1000;
+    z-index: 10;
     font-size: 24px;
   }
 
   #other-images-remove{
     top: -20px;
     right: 0px;
-    z-index: 1000;
+    z-index: 10;
     font-size: 18px;
   }
 
