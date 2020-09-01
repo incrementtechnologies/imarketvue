@@ -17,7 +17,7 @@
           </td>
           <td>{{item.tags}}</td>
           <td >
-             <button class="btn btn-primary" @click="redirect('/traces/' + item.code)" title="Total active trace">{{parseInt(item.qty)}}</button>
+             <button class="btn btn-primary">{{parseInt(item.qty)}}</button>
           </td>
           <td >         
             <button class="btn btn-primary" @click="redirect('/product/edit/' + item.code)">
