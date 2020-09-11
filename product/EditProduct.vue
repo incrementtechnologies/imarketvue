@@ -11,6 +11,9 @@
         <div v-if="errorMessage !== null">
           <label class="text-danger">Opps! {{errorMessage}}</label>
         </div>
+        <div v-if="successMessage !== null">
+          <label class="text-success">{{successMessage}}</label>
+        </div>
         <div class="product-item-title">
           <label>Title <label class="text-danger">*</label></label>
           <br>
@@ -413,6 +416,7 @@ export default {
       user: AUTH.user,
       config: CONFIG,
       errorMessage: null,
+      successMessage: null,
       data: null,
       code: this.$route.params.code,
       // categories: [
@@ -551,6 +555,7 @@ export default {
         }else{
           this.retrieve()
         }
+        this.successMessage = 'Updated Successfully'
         ROUTER.push(AUTH.redirectRoute(this.user.type))
       })
     },
