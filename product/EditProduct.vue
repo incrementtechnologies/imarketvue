@@ -105,11 +105,11 @@
         <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null">
         <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null">
         <b-embed
-        type="iframe"
+        type="video"
         v-else-if="getFileType(config.BACKEND_URL + selectedImage) === 'vid'"
         aspect="16by9"
         :src="config.BACKEND_URL + selectedImage"
-        allowfullscreen
+        allowfullscreen controls
         ></b-embed>
         <i class="fa fa-image" v-if="selectedImage === null && data.featured === null"></i>
         <label class="remove-image text-danger" id="featured-image-remove" @click="removeImage(data.featured[0].id)" v-if="selectedImage === null && data.featured !== null">
