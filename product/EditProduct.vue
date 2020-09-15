@@ -102,8 +102,8 @@
             <button class="btn btn-primary pull-right" @click="showImages('featured')">Select</button>
           </label>
         </div>
-        <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null">
-        <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null">
+        <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null && getFileType(config.BACKEND_URL + selectedImage) === 'img'">
+        <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null && getFileType(config.BACKEND_URL + selectedImage) === 'img'">
         <b-embed
         type="video"
         v-else-if="getFileType(config.BACKEND_URL + selectedImage) === 'vid'"
