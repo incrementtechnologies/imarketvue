@@ -6,10 +6,10 @@
     <div class="form-group" v-if="item.price === null">
       <label for="exampleInputEmail1" style="font-weight: 600;">Price</label>
       <div>
-        <select class="form-control form-control-custom" style="width: 20%; float: left;" v-model="currency">
+        <select class="form-control form-control-custom" style="width: 24%; float: left;" v-model="currency">
           <option :value="item.currency" v-for="(item, index) in countries.list" :key="index">{{item.currency}}</option>
         </select>
-        <select class="form-control form-control-custom" style="width: 20%; float: left;margin-left: 1%;" v-model="flag">
+        <select class="form-control form-control-custom" style="width: 26%; float: left;margin-left: 1%;" v-model="flag">
           <option value="fixed">Fixed</option>
         </select>
         <select class="form-control form-control-custom" style="width: 20%; float: left;margin-left: 1%;" v-model="label" v-if="item.type === 'rental'">
@@ -18,7 +18,7 @@
           <option value="week">Per Week</option>
           <option value="month">Per Month</option>
         </select>
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 27%;margin-left: 1%;" placeholder="Type price here" v-model="price" @keyup.enter="createRequest()" v-if="flag === 'fixed'">
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 31%;margin-left: 1%;" placeholder="Type price here" v-model="price" @keyup.enter="createRequest()" v-if="flag === 'fixed'">
         <button class="btn btn-primary form-control-custom pull-right" style="margin-left: 10px;" @click="createRequest()"><i class="fa fa-plus"></i></button>
       </div>
       <!-- <div>
