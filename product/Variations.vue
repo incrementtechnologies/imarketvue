@@ -69,6 +69,13 @@
   border-radius: 5px;
   margin-left: 5px;
 }
+
+@media (max-width:992px) {
+  select.form-control.form-control-custom {
+    width: 38% !important;
+    float: left; 
+  }
+}
 </style>
 <script>
 import ROUTER from 'src/router'
