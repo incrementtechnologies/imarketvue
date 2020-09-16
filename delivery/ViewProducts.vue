@@ -8,7 +8,7 @@
             <span aria-hidden="true" class="text-white">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" v-if="dataAdded !== null">
             <center>
               <h4>Order No.{{dataAdded.order_number}}</h4>
               <p>{{dataAdded.location}}</p>
