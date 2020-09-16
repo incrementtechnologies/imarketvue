@@ -99,7 +99,7 @@
         <div class="product-row" style="text-align: left !important;">
           <label style="width: 100%">
             <label style="width: 70%">Featured Image</label>
-            <button class="btn btn-primary pull-right" @click="showImages('featured')">Select</button>
+            <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('featured')">Select</button>
           </label>
         </div>
         <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null">
@@ -119,7 +119,7 @@
         <div class="product-row" style="text-align: left !important;">
           <label style="width: 100%">
             <label style="width: 70%">Other Images</label>
-            <button class="btn btn-primary pull-right" @click="showImages('images')">Select</button>
+            <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('images')">Select</button>
           </label>
         </div>
         <div v-for="item, index in data.images" class="image-item" @click="selectImage(item.url)" style="position: relative;">
@@ -398,6 +398,19 @@
   @media (max-width: 992px){
     .product-item-details, .product-image, .product-more-details .details-holder, .product-menu{
       width: 100%;
+    }
+  }
+
+  @media (max-width: 700px) {
+    .product-menu li {
+      height: 50px;
+      float: left;
+      width: 33%;
+      line-height: 50px;
+      padding-left: 10px;
+      font-weight: 600;
+      border-right: solid 1px #fff;
+      background: #ffaa81;
     }
   }
 </style>

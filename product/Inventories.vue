@@ -69,6 +69,13 @@
 .form-control-custom{
   height: 50px !important;
 }
+
+@media (max-width: 992px) {
+  input.form-control.form-control-custom {
+    width: 83% !important;
+    float: left;
+  }
+}
 </style>
 <script>
 import ROUTER from 'src/router'
