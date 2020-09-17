@@ -170,7 +170,7 @@
         <bundled-products :item="data"></bundled-products>
       </div>
     </div>
-    <browse-images-modal :fileUpload="'images/*,video/*'"></browse-images-modal>
+    <browse-images-modal :fileUpload="'images/*,videos/*'"></browse-images-modal>
     <confirmation ref="confirmationModal" :title="'Confirmation Message'" :message="'Are you sure you want delete this product?'" @onConfirm="deleteProduct($event.id)"></confirmation>
   </div>
 </template>
@@ -472,7 +472,7 @@ export default {
   methods: {
     getFileType(url){
       console.log(url.substring(url.lastIndexOf('.')))
-      return url.substring(url.lastIndexOf('.')) === '.webm' ? 'vid' : 'img'
+      return url.substring(url.lastIndexOf('.')) === '.webm' || url.substring(url.lastIndexOf('.')) === '.mp4' ? 'vid' : 'img'
     },
     redirect(parameter){
       ROUTER.push(parameter)
