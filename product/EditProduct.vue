@@ -102,14 +102,14 @@
             <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('featured')">Select</button>
           </label>
         </div>
-        <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null">
-        <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null">
+        <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null && getFileType(config.BACKEND_URL + selectedImage) === 'img'">
+        <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null && getFileType(config.BACKEND_URL + selectedImage) === 'img'">
         <b-embed
-        type="iframe"
+        type="video"
         v-else-if="getFileType(config.BACKEND_URL + selectedImage) === 'vid'"
         aspect="16by9"
         :src="config.BACKEND_URL + selectedImage"
-        allowfullscreen
+        allowfullscreen controls
         ></b-embed>
         <i class="fa fa-image" v-if="selectedImage === null && data.featured === null"></i>
         <label class="remove-image text-danger" id="featured-image-remove" @click="removeImage(data.featured[0].id)" v-if="selectedImage === null && data.featured !== null">
@@ -170,7 +170,7 @@
         <bundled-products :item="data"></bundled-products>
       </div>
     </div>
-    <browse-images-modal :fileUpload="'images/*,video/*'"></browse-images-modal>
+    <browse-images-modal :fileUpload="'images/*,videos/*'"></browse-images-modal>
     <confirmation ref="confirmationModal" :title="'Confirmation Message'" :message="'Are you sure you want delete this product?'" @onConfirm="deleteProduct($event.id)"></confirmation>
   </div>
 </template>
@@ -485,7 +485,7 @@ export default {
   methods: {
     getFileType(url){
       console.log(url.substring(url.lastIndexOf('.')))
-      return url.substring(url.lastIndexOf('.')) === '.webm' ? 'vid' : 'img'
+      return url.substring(url.lastIndexOf('.')) === '.webm' || url.substring(url.lastIndexOf('.')) === '.mp4' ? 'vid' : 'img'
     },
     redirect(parameter){
       ROUTER.push(parameter)
