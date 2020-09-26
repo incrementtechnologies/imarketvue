@@ -15,7 +15,7 @@
             </center>
           <div class="row">
               <p class="col 6" style="margin-left: 2%">Customer: {{dataAdded.name}}</p>
-              <p class="col 6" style="text-align: right; margin-right: 3%">Delivered By: {{dataAdded.assigned_rider}}</p>
+              <p class="col 6" style="text-align: right; margin-right: 3%">Delivered By: {{dataAdded.assigned_rider ? dataAdded.assigned_rider.name : 'NONE'}}</p>
           </div>
           <table class="table table-responsive" v-if="data !== null">
             <thead>
