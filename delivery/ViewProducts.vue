@@ -14,8 +14,9 @@
               <p>{{dataAdded.location}}</p>
             </center>
           <div class="row">
-              <p class="col 6" style="margin-left: 2%">Customer: {{dataAdded.name}}</p>
-              <p class="col 6" style="text-align: right; margin-right: 3%">Delivered By: {{dataAdded.assigned_rider}}</p>
+              <p class="col 4" style="margin-left: 2%">Customer: {{dataAdded.name}}</p>
+              <p class="col 4" style="text-align: right; margin-right: 3%">Delivered By: {{dataAdded.assigned_rider !== null ? dataAdded.assigned_rider.name : dataAdded.assigned_rider}}</p>
+              <p class="col 4" style="text-align: right; margin-right: 3%">Type of Payment: <b class="text-uppercase">{{dataAdded.type}}</b></p>
           </div>
           <table class="table table-responsive" v-if="data !== null">
             <thead>
