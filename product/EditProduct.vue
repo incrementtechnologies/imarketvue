@@ -170,7 +170,7 @@
         <bundled-products :item="data"></bundled-products>
       </div>
     </div>
-    <browse-images-modal :fileUpload="'images/*,videos/*'"></browse-images-modal>
+    <browse-images-videos-modal :type="'image/*,video/*'"></browse-images-videos-modal>
     <confirmation ref="confirmationModal" :title="'Confirmation Message'" :message="'Are you sure you want delete this product?'" @onConfirm="deleteProduct($event.id)"></confirmation>
   </div>
 </template>
@@ -472,7 +472,7 @@ export default {
   components: {
     'ratings': require('components/increment/generic/rating/Ratings.vue'),
     'product-comments': require('components/increment/generic/comment/Comments.vue'),
-    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
+    'browse-images-videos-modal': require('components/increment/generic/image/BrowseImagesVideo.vue'),
     'variations': require('components/increment/imarketvue/product/Variations.vue'),
     'inventories': require('components/increment/imarketvue/product/Inventories.vue'),
     'product-trace': require('components/increment/imarketvue/product/ProductTrace.vue'),
