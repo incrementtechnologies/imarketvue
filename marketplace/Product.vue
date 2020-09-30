@@ -357,7 +357,7 @@ export default {
       errorMessage: null,
       data: null,
       code: this.$route.params.code,
-      status: this.$route.params.status,
+      status: this.$route.params.preview,
       productMenu: [
         {title: 'Details', flag: true},
         // {title: 'Supplier', flag: false},
