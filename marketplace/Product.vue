@@ -406,7 +406,6 @@ export default {
       this.selectedImage = url
     },
     retrieve(){
-      console.log(this.status)
       let parameter = null
       if(this.status === 'preview'){
         parameter = {
@@ -433,11 +432,9 @@ export default {
           inventory_type: COMMON.ecommerce.inventoryType
         }
       }
-      console.log(parameter)
       $('#loading').css({display: 'block'})
       this.APIRequest('products/retrieve', parameter).then(response => {
         $('#loading').css({display: 'none'})
-        console.log('maoni', response.data)
         if(response.data.length > 0){
           this.data = response.data[0]
         }
