@@ -53,7 +53,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" @click="hideModal()">Close</button>
-          <button type="button" class="btn btn-primary" v-bind:disabled="btnDisable" @click="confirm()">Completed</button>
+          <button type="button" class="btn btn-primary" v-bind:disabled="btnDisable" @click="confirm()">Complete</button>
         </div>
       </div>
     </div>
