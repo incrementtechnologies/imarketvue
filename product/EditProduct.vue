@@ -89,6 +89,14 @@
             <option value="outOfStock">Out of Stock</option>
           </select>
         </div>
+        <div class="product-item-title" style="width: 32% !important;margin-left: 1%;">
+          <label>Preparation Time</label>
+          <br>
+          <select class="form-control form-control-custom" v-model="data.preparation_time">
+            <option value = null hidden>null</option>
+            <option v-for="(text,key) in prepTimeOptions" :key="key" :value = text.value>{{text.text}}</option>
+          </select>
+        </div>
         <div class="product-item-title">
           <button class="btn btn-danger" @click="showConfirmationModal(data.id)" v-if="data.inventories === null && data.product_traces === null && data.status === 'pending'" style="margin-top: 5px;">Delete</button>
           <button class="btn btn-primary pull-right" @click="updateProduct()" style="margin-right: 2px; margin-top: 5px;">Update</button>
@@ -422,6 +430,7 @@ import COMMON from 'src/common.js'
 import axios from 'axios'
 export default {
   mounted(){
+    this.setTimePrepOptions()
     this.retrieve()
   },
   data(){
@@ -455,7 +464,8 @@ export default {
         product_id: null,
         payload: null,
         payload_value: null
-      }
+      },
+      prepTimeOptions: []
     }
   },
   computed: {
@@ -483,8 +493,36 @@ export default {
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
   methods: {
+    setTimePrepOptions(){
+      var totalMin = 0
+      for(let count = 1; count <= 24; count++){
+        var floorDiv
+        var text = ''
+        if(count < 13){
+          totalMin += 15
+          floorDiv = Math.floor(totalMin / 60)
+          var min = ((totalMin / 15) % 4) * 15
+          text = (floorDiv === 0 ? '' : floorDiv + (floorDiv !== 1 ? ' hrs ' : ' hr ')) + (min !== 0 ? min + ' mins' : '')
+        }else if(count < 18){
+          totalMin += 60
+          floorDiv = Math.floor(totalMin / 60)
+          text = floorDiv + (floorDiv === 1 ? ' hr ' : ' hrs ')
+        }else if(count === 18){
+          totalMin = 1440
+          floorDiv = Math.floor(totalMin / 1440)
+          text = floorDiv + (floorDiv === 1 ? ' day ' : ' days ')
+        }else if(count < 24){
+          totalMin += 1440
+          floorDiv = Math.floor(totalMin / 1440)
+          text = floorDiv + (floorDiv === 1 ? ' day ' : ' days ')
+        }else {
+          totalMin += 1440
+          text = '1 week'
+        }
+        this.prepTimeOptions.push({value: totalMin, text: text})
+      }
+    },
     getFileType(url){
-      console.log(url.substring(url.lastIndexOf('.')))
       return url.substring(url.lastIndexOf('.')) === '.webm' || url.substring(url.lastIndexOf('.')) === '.mp4' ? 'vid' : 'img'
     },
     redirect(parameter){
@@ -519,7 +557,6 @@ export default {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data[0]
-          console.log(this.data)
         }
       })
     },
