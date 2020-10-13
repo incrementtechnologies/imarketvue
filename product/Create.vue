@@ -18,8 +18,8 @@
             <br v-if="errorMessage !== null">
             <br>
             <div class="form-group">
-              <label for="exampleInputEmail1">Title</label>
-              <input type="text" class="form-control" placeholder="Type title here..." v-model="title">
+              <label for="exampleInputEmail1">Product Name</label>
+              <input type="text" class="form-control" placeholder="Type name of product here..." v-model="title">
             </div>
             <div class="form-group">
               <label for="exampleInputEmail1">Description</label>
