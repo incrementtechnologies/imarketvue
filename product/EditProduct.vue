@@ -69,7 +69,6 @@
           <br>
           <select class="form-control form-control-custom" v-model="data.type">
             <option value="regular">Regular</option>
-            <option value="rental">Rental</option>
           </select>
         </div>
         <!-- <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
