@@ -65,10 +65,11 @@
           </div>
         </div>
         <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
-          <label>Foods</label>
+          <label>Type</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.type">
             <option value="regular">Regular</option>
+            <option value="rental">Rental</option>
           </select>
         </div>
         <!-- <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
@@ -522,6 +523,7 @@ export default {
       }
     },
     getFileType(url){
+      console.log(url.substring(url.lastIndexOf('.')))
       return url.substring(url.lastIndexOf('.')) === '.webm' || url.substring(url.lastIndexOf('.')) === '.mp4' ? 'vid' : 'img'
     },
     redirect(parameter){
@@ -594,6 +596,7 @@ export default {
       if(this.validate() === false){
         return
       }
+      this.data.preparation_time = parseInt(this.data.preparation_time)
       this.APIRequest('products/update', this.data).then(response => {
         if(this.common.ecommerce.productUnits !== null){
           if(this.data.variation !== null){
