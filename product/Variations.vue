@@ -129,11 +129,9 @@ export default {
       ROUTER.push(parameter)
     },
     create(){
-      console.log(this.newAttribute.payload)
       if(this.newAttribute.payload_value !== null && this.newAttribute.payload_value !== '' && this.newAttribute.currency !== null && this.newAttribute.currency !== '' &&
       this.newAttribute.price !== null && this.newAttribute.price !== '' && this.newAttribute.status !== null && this.newAttribute.status !== ''){
         this.APIRequest('product_attributes/create', this.newAttribute).then(response => {
-          console.log('success', response.data)
           if(response.data > 0){
             this.newAttribute.payload_value = null
             this.newAttribute.price = null
