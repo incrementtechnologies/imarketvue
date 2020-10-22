@@ -17,9 +17,16 @@
     </div>
     <div class="variations-content" v-if="item.variation !== null">
       <div class="attribute-item" v-for="itemVariation, indexVariation in item.variation">
-        <input class="form-control form-control-custom" style="width: 40%; float: left; margin-right: 10px;" v-model="itemVariation.payload" placeholder="Type variation here...">
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 20%;" placeholder="Type variation value here..." v-model="itemVariation.payload_value" @keyup.enter="update(itemVariation)">
+        <input class="form-control form-control-custom" style="width: 20%; float: left; margin-right: 10px;" v-model="itemVariation.payload" placeholder="Type variation here...">
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 15%;" placeholder="Type variation value here..." v-model="itemVariation.payload_value" @keyup.enter="update(itemVariation)">
         <label class="form-control-custom color-viewer" style="float: left; width: 15%;" :style="{background: itemVariation.payload_value}" v-if="itemVariation.payload.toLowerCase() === 'color'"></label>
+        <select style="width: 12%; float: left; margin-right: 5px; margin-left: 5px;" class="form-control form-control-custom" v-model="itemVariation.currency">
+          <option>{{country.list[0].currency}}</option>
+        </select>
+        <input class="form-control form-control-custom" style="width: 13%; float: left; margin-right: 5px; margin-left: 5px;" type="number" v-model="itemVariation.price" placeholder="Price">
+        <select style="width: 20%; float: left; margin-right: 5px;" class="form-control form-control-custom" v-model="itemVariation.status">
+          <option v-for="(item, index) in common.ecommerce.status" :key="index" :value="item">{{item}}</option>
+        </select>
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="update(itemVariation)">
           <i class="fa fa-sync"></i>
         </button>
@@ -82,6 +89,7 @@ import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 import COMMON from 'src/common.js'
+import COUNTRIES from 'src/countries.js'
 import axios from 'axios'
 export default {
   mounted(){
@@ -91,6 +99,7 @@ export default {
     return {
       user: AUTH.user,
       config: CONFIG,
+      country: COUNTRIES,
       errorMessage: null,
       newAttribute: {
         product_id: this.item.id,
