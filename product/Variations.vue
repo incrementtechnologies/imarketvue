@@ -16,7 +16,7 @@
           <option>{{country.list[0].currency}}</option>
         </select>
         <input type="number" class="form-control form-control-custom" style="float: left; width: 12%; margin-left: 3px; margin-right: 3px;" placeholder="Price" v-model="newAttribute.price" @keyup.enter="create()" v-if="newAttribute.payload !== null">
-        <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom" v-model="newAttribute.status" @keyup.enter="create()" v-if="newAttribute.payload !== null">
+        <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom text-uppercase" v-model="newAttribute.status" @keyup.enter="create()" v-if="newAttribute.payload !== null">
           <option v-for="(item, index) in common.ecommerce.status" :key="index" :value="item">{{item}}</option>
         </select>
 
@@ -36,7 +36,7 @@
           <option>{{country.list[0].currency}}</option>
         </select>
         <input class="form-control form-control-custom" style="width: 10%; float: left; margin-right: 5px; margin-left: 5px;" type="number" v-model="itemVariation.price" placeholder="Price">
-        <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom" v-model="itemVariation.status">
+        <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom text-uppercase" v-model="itemVariation.status">
           <option v-for="(item, index) in common.ecommerce.status" :key="index" :value="item">{{item}}</option>
         </select>
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="update(itemVariation)">
