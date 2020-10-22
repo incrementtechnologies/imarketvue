@@ -1,7 +1,7 @@
 <template>
   <div class="location-holder">
     <div class="error text-danger" v-if="errorMessage !== null">{{errorMessage}}</div>
-    <div class="form-group">
+    <div class="form-group" v-if="countries !== null">
       <label for="exampleInputEmail1" style="font-weight: 600;">Exclusive Location</label>
       <div>
         <!-- <select style="width: 80%; float: left;" class="form-control form-control-custom" v-model="selectedLocationIndex">
