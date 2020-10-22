@@ -4,27 +4,39 @@
     <div class="form-group">
       <label for="exampleInputEmail1" style="font-weight: 600;">Variations</label>
       <div>
-        <select style="width: 45%; float: left;" class="form-control form-control-custom" v-model="newAttribute.payload" @change="onSelect()">
+        <select style="width: 20%; float: left;" class="form-control form-control-custom" v-model="newAttribute.payload" @change="onSelect()">
           <option v-for="(item, index) in common.ecommerce.variations" :key="index" :value="item">{{item}}</option>
         </select>
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 40%; margin-left: 10px;" placeholder="Type variation value here..." v-model="newAttribute.payload_value" @keyup.enter="create()" v-if="newAttribute.payload !== null && newAttribute.payload.toLowerCase() !== 'color'">
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 27%; margin-left: 10px;" placeholder="Type variation value here..." v-model="newAttribute.payload_value" @keyup.enter="create()" v-if="newAttribute.payload !== null && newAttribute.payload.toLowerCase() !== 'color'">
 
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 25%; margin-left: 10px;" placeholder="#ff0000" v-model="newAttribute.payload_value" @keyup.enter="create()" v-if="newAttribute.payload !== null && newAttribute.payload.toLowerCase() === 'color'">
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 13%; margin-left: 10px;" placeholder="#ff0000" v-model="newAttribute.payload_value" @keyup.enter="create()" v-if="newAttribute.payload !== null && newAttribute.payload.toLowerCase() === 'color'">
+        <label class="form-control-custom color-viewer" style="float: left; width: 13%;" :style="{background: newAttribute.payload_value}" v-if="newAttribute.payload !== null && newAttribute.payload.toLowerCase() === 'color'"></label>
 
-        <label class="form-control-custom color-viewer" style="float: left; width: 15%;" :style="{background: newAttribute.payload_value}" v-if="newAttribute.payload !== null && newAttribute.payload.toLowerCase() === 'color'"></label>
+        <select style="width: 11%; float: left; margin-right: 5px; margin-left: 5px;" class="form-control form-control-custom" v-model="newAttribute.currency" @keyup.enter="create()" v-if="newAttribute.payload !== null">
+          <option>{{country.list[0].currency}}</option>
+        </select>
+        <input type="number" class="form-control form-control-custom" style="float: left; width: 12%; margin-left: 3px; margin-right: 3px;" placeholder="Price" v-model="newAttribute.price" @keyup.enter="create()" v-if="newAttribute.payload !== null">
+        <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom" v-model="newAttribute.status" @keyup.enter="create()" v-if="newAttribute.payload !== null">
+          <option v-for="(item, index) in common.ecommerce.status" :key="index" :value="item">{{item}}</option>
+        </select>
+
+
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="create()"><i class="fa fa-plus"></i></button>
       </div>
     </div>
     <div class="variations-content" v-if="item.variation !== null">
       <div class="attribute-item" v-for="itemVariation, indexVariation in item.variation">
         <input class="form-control form-control-custom" style="width: 20%; float: left; margin-right: 10px;" v-model="itemVariation.payload" placeholder="Type variation here...">
-        <input type="text" class="form-control form-control-custom" style="float: left; width: 15%;" placeholder="Type variation value here..." v-model="itemVariation.payload_value" @keyup.enter="update(itemVariation)">
-        <label class="form-control-custom color-viewer" style="float: left; width: 15%;" :style="{background: itemVariation.payload_value}" v-if="itemVariation.payload.toLowerCase() === 'color'"></label>
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 20%;" placeholder="Type variation value here..." v-if="itemVariation.payload.toLowerCase() !== 'color'" v-model="itemVariation.payload_value" @keyup.enter="update(itemVariation)">
+
+        <input type="text" class="form-control form-control-custom" style="float: left; width: 11%; margin-left: 10px;" placeholder="#ff0000" v-model="itemVariation.payload_value" v-if="itemVariation.payload.toLowerCase() === 'color'">
+        <label class="form-control-custom color-viewer" style="float: left; width: 7%;" :style="{background: itemVariation.payload_value}" v-if="itemVariation.payload.toLowerCase() === 'color'"></label>
+
         <select style="width: 12%; float: left; margin-right: 5px; margin-left: 5px;" class="form-control form-control-custom" v-model="itemVariation.currency">
           <option>{{country.list[0].currency}}</option>
         </select>
-        <input class="form-control form-control-custom" style="width: 13%; float: left; margin-right: 5px; margin-left: 5px;" type="number" v-model="itemVariation.price" placeholder="Price">
-        <select style="width: 20%; float: left; margin-right: 5px; " class="form-control form-control-custom text-uppercase" v-model="itemVariation.status">
+        <input class="form-control form-control-custom" style="width: 10%; float: left; margin-right: 5px; margin-left: 5px;" type="number" v-model="itemVariation.price" placeholder="Price">
+        <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom" v-model="itemVariation.status">
           <option v-for="(item, index) in common.ecommerce.status" :key="index" :value="item">{{item}}</option>
         </select>
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="update(itemVariation)">
@@ -89,8 +101,8 @@ import ROUTER from 'src/router'
 import AUTH from 'src/services/auth'
 import CONFIG from 'src/config.js'
 import COMMON from 'src/common.js'
-import COUNTRIES from 'src/countries.js'
 import axios from 'axios'
+import COUNTRIES from 'src/countries.js'
 export default {
   mounted(){
   },
@@ -104,7 +116,10 @@ export default {
       newAttribute: {
         product_id: this.item.id,
         payload: null,
-        payload_value: null
+        payload_value: null,
+        currency: null,
+        price: null,
+        status: null
       },
       common: COMMON
     }
@@ -114,10 +129,16 @@ export default {
       ROUTER.push(parameter)
     },
     create(){
-      if(this.newAttribute.payload_value !== null && this.newAttribute.payload_value !== ''){
+      console.log(this.newAttribute.payload)
+      if(this.newAttribute.payload_value !== null && this.newAttribute.payload_value !== '' && this.newAttribute.currency !== null && this.newAttribute.currency !== '' &&
+      this.newAttribute.price !== null && this.newAttribute.price !== '' && this.newAttribute.status !== null && this.newAttribute.status !== ''){
         this.APIRequest('product_attributes/create', this.newAttribute).then(response => {
+          console.log('success', response.data)
           if(response.data > 0){
             this.newAttribute.payload_value = null
+            this.newAttribute.price = null
+            this.newAttribute.currency = null
+            this.newAttribute.status = null
             this.errorMessage = null
             this.$parent.retrieve()
           }
