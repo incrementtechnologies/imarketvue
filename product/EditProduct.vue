@@ -522,7 +522,6 @@ export default {
       }
     },
     getFileType(url){
-      console.log(url.substring(url.lastIndexOf('.')))
       return url.substring(url.lastIndexOf('.')) === '.webm' || url.substring(url.lastIndexOf('.')) === '.mp4' ? 'vid' : 'img'
     },
     redirect(parameter){
@@ -607,7 +606,9 @@ export default {
           this.retrieve()
         }
         this.successMessage = 'Updated Successfully'
-        ROUTER.push(AUTH.redirectRoute(this.user.type))
+        // ROUTER.push(AUTH.redirectRoute(this.user.type))
+        ROUTER.push('/products')
+
       })
     },
     createAttribute(){
