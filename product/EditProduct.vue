@@ -37,7 +37,7 @@
               <span @click='removeTag(index)'>x</span>
               {{ tag }}
             </div>
-            <input type='text' placeholder="Enter a Tag" class='tag-input__text' @keydown.enter='addTag' @keydown.188='addTag' @keydown.delete='removeLastTag'/>
+            <input type='text' placeholder="Enter a Tag" class='tag-input__text' :autocomplete-items="filteredItems" @keydown.enter='addTag' @keydown.188='addTag' @keydown.delete='removeLastTag'/>
           </div>
         </div>
         <div class="product-item-title">
@@ -432,9 +432,9 @@
   line-height: 30px;
   padding: 0 5px;
   border-radius: 5px;
-  color: #ffaa81;
-  background-color: transparent; 
-  border: 1px solid #ffaa81;
+  color: white;
+  background-color: #ff5b04; 
+  border: 1px solid #ff5b04;
 }
 
 .tag-input__tag > span {
@@ -444,11 +444,13 @@
 
 .tag-input__text {
   border: none;
+  color: #495057;
   outline: none;
   line-height: 50px;
   background: none;
   height: 30px;
   line-height: 30px;
+  font-size: 16px;
 }
 </style>
 <script>
@@ -494,14 +496,6 @@ export default {
         payload_value: null
       },
       tags: []
-      // tags: [],
-      // autocompleteItems: [
-      //   {text: 'Spain'},
-      //   {text: 'France'},
-      //   {text: 'USA'},
-      //   {text: 'Germany'},
-      //   {text: 'China'}
-      // ]
     }
   },
   computed: {
