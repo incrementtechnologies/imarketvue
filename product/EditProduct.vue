@@ -24,13 +24,24 @@
           <br>
           <textarea class="form-control" rows="20" v-model="data.description" placeholder="Type product description here..."></textarea>
         </div>
-        <div class="product-item-title">
+        <!-- <div class="product-item-title">
           <label>Tags</label>
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.tags" placeholder="Separate tags with ,">
+        </div> -->
+        <div class="product-item-title">
+          <label>Tags</label>
+          <br>
+          <div class="form-control form-control-custom">
+            <div v-for='(tag, index) in tags' :key='index' class='tag-input__tag'>
+              <span @click='removeTag(index)'>x</span>
+              {{ tag }}
+            </div>
+            <input type='text' placeholder="Enter a Tag" class='tag-input__text' @keydown.enter='addTag' @keydown.188='addTag' @keydown.delete='removeLastTag'/>
+          </div>
         </div>
         <div class="product-item-title">
-          <label>SKU</label>
+          <label>SKU</label> 
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.sku" placeholder="Type product sku here...">
         </div>
@@ -413,6 +424,32 @@
       background: #ffaa81;
     }
   }
+
+  .tag-input__tag {
+  height: 30px;
+  float: left;
+  margin-right: 10px;
+  line-height: 30px;
+  padding: 0 5px;
+  border-radius: 5px;
+  color: #ffaa81;
+  background-color: transparent; 
+  border: 1px solid #ffaa81;
+}
+
+.tag-input__tag > span {
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.tag-input__text {
+  border: none;
+  outline: none;
+  line-height: 50px;
+  background: none;
+  height: 30px;
+  line-height: 30px;
+}
 </style>
 <script>
 import ROUTER from 'src/router'
@@ -455,7 +492,16 @@ export default {
         product_id: null,
         payload: null,
         payload_value: null
-      }
+      },
+      tags: []
+      // tags: [],
+      // autocompleteItems: [
+      //   {text: 'Spain'},
+      //   {text: 'France'},
+      //   {text: 'USA'},
+      //   {text: 'Germany'},
+      //   {text: 'China'}
+      // ]
     }
   },
   computed: {
@@ -483,8 +529,23 @@ export default {
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
   methods: {
+    addTag (event) {
+      event.preventDefault()
+      var val = event.target.value.trim()
+      if (val.length > 0) {
+        this.tags.push(val)
+        event.target.value = ''
+      }
+    },
+    removeTag (index) {
+      this.tags.splice(index, 1)
+    },
+    removeLastTag(event) {
+      if (event.target.value.length === 0) {
+        this.removeTag(this.tags.length - 1)
+      }
+    },
     getFileType(url){
-      console.log(url.substring(url.lastIndexOf('.')))
       return url.substring(url.lastIndexOf('.')) === '.webm' || url.substring(url.lastIndexOf('.')) === '.mp4' ? 'vid' : 'img'
     },
     redirect(parameter){
@@ -519,7 +580,9 @@ export default {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data[0]
-          console.log(this.data)
+          this.tags = this.data.tags.split(', ')
+          console.log('this ', this.data)
+          // console.log('mao ni edit ', this.data)
         }
       })
     },
@@ -558,6 +621,7 @@ export default {
       if(this.validate() === false){
         return
       }
+      this.data.tags = this.tags.join(', ')
       this.APIRequest('products/update', this.data).then(response => {
         if(this.common.ecommerce.productUnits !== null){
           if(this.data.variation !== null){
@@ -571,6 +635,7 @@ export default {
         this.successMessage = 'Updated Successfully'
         ROUTER.push(AUTH.redirectRoute(this.user.type))
       })
+      console.log('tagtag:', this.tag)
     },
     createAttribute(){
       if(this.newAttribute.payload_value !== null && this.newAttribute.payload_value !== '' && parseInt(this.newAttribute.payload_value) > 0){
