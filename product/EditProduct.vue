@@ -81,11 +81,10 @@
           </div>
         </div>
         <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
-          <label>Foods</label>
+          <label>Type</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.type">
             <option value="regular">Regular</option>
-            <option value="rental">Rental</option>
           </select>
         </div>
         <!-- <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
@@ -103,6 +102,14 @@
             <option value="published">Publish</option>
             <option value="Featured">Feature</option>
             <option value="outOfStock">Out of Stock</option>
+          </select>
+        </div>
+        <div class="product-item-title" style="width: 32% !important;margin-left: 1%;">
+          <label>Preparation Time</label>
+          <br>
+          <select class="form-control form-control-custom" v-model="data.preparation_time">
+            <option value = null hidden>null</option>
+            <option v-for="(text,key) in prepTimeOptions" :key="key" :value = text.value>{{text.text}}</option>
           </select>
         </div>
         <div class="product-item-title">
@@ -466,6 +473,7 @@ import COMMON from 'src/common.js'
 import axios from 'axios'
 export default {
   mounted(){
+    this.setTimePrepOptions()
     this.retrieve()
   },
   data(){
@@ -499,7 +507,8 @@ export default {
         product_id: null,
         payload: null,
         payload_value: null
-      }
+      },
+      prepTimeOptions: []
       // tags: []
     }
   },
@@ -544,6 +553,35 @@ export default {
     //     this.removeTag(this.tags.length - 1)
     //   }
     // },
+    setTimePrepOptions(){
+      var totalMin = 0
+      for(let count = 1; count <= 24; count++){
+        var floorDiv
+        var text = ''
+        if(count < 13){
+          totalMin += 15
+          floorDiv = Math.floor(totalMin / 60)
+          var min = ((totalMin / 15) % 4) * 15
+          text = (floorDiv === 0 ? '' : floorDiv + (floorDiv !== 1 ? ' hrs ' : ' hr ')) + (min !== 0 ? min + ' mins' : '')
+        }else if(count < 18){
+          totalMin += 60
+          floorDiv = Math.floor(totalMin / 60)
+          text = floorDiv + (floorDiv === 1 ? ' hr ' : ' hrs ')
+        }else if(count === 18){
+          totalMin = 1440
+          floorDiv = Math.floor(totalMin / 1440)
+          text = floorDiv + (floorDiv === 1 ? ' day ' : ' days ')
+        }else if(count < 24){
+          totalMin += 1440
+          floorDiv = Math.floor(totalMin / 1440)
+          text = floorDiv + (floorDiv === 1 ? ' day ' : ' days ')
+        }else {
+          totalMin += 1440
+          text = '1 week'
+        }
+        this.prepTimeOptions.push({value: totalMin, text: text})
+      }
+    },
     getFileType(url){
       return url.substring(url.lastIndexOf('.')) === '.webm' || url.substring(url.lastIndexOf('.')) === '.mp4' ? 'vid' : 'img'
     },
@@ -620,6 +658,7 @@ export default {
         return
       }
       // this.data.tags = this.tags.join(', ')
+      this.data.preparation_time = parseInt(this.data.preparation_time)
       this.APIRequest('products/update', this.data).then(response => {
         if(this.common.ecommerce.productUnits !== null){
           if(this.data.variation !== null){
@@ -631,7 +670,9 @@ export default {
           this.retrieve()
         }
         this.successMessage = 'Updated Successfully'
-        ROUTER.push(AUTH.redirectRoute(this.user.type))
+        // ROUTER.push(AUTH.redirectRoute(this.user.type))
+        ROUTER.push('/products')
+
       })
     },
     createAttribute(){
