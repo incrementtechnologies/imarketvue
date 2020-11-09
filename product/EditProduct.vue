@@ -24,13 +24,29 @@
           <br>
           <textarea class="form-control" rows="20" v-model="data.description" placeholder="Type product description here..."></textarea>
         </div>
+        <!-- <div class="product-item-title">
+          <label>Tags</label>
+          <br>
+          <div class="form-control form-control-custom">
+            <div v-for='(tag, index) in tags' :key='index' class='tag-input__tag'>
+              <span @click='removeTag(index)'>x</span>
+              {{ tag }}
+            </div>
+            <input type='text' placeholder="Type a tag" class='tag-input__text' @keydown.enter='addTag' @keydown.188='addTag' @keydown.delete='removeLastTag'/>
+          </div>
+        </div> -->
+        <div class="product-item-title">
+          <label>Category</label>
+          <br>
+          <input type="text" class="form-control form-control-custom" v-model="data.category" placeholder="Separate category with ,">
+        </div>
         <div class="product-item-title">
           <label>Tags</label>
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.tags" placeholder="Separate tags with ,">
         </div>
         <div class="product-item-title">
-          <label>SKU</label>
+          <label>SKU</label> 
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.sku" placeholder="Type product sku here...">
         </div>
@@ -420,6 +436,34 @@
       background: #ffaa81;
     }
   }
+
+  .tag-input__tag {
+  height: 30px;
+  float: left;
+  margin-right: 5px;
+  line-height: 30px;
+  padding: 0 10px;
+  border-radius: 5px;
+  color: white;
+  background-color: #f1661a; 
+  border: 1px solid #ff5b04;
+}
+
+.tag-input__tag > span {
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.tag-input__text {
+  border: none;
+  color: #495057;
+  outline: none;
+  line-height: 50px;
+  background: none;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+}
 </style>
 <script>
 import ROUTER from 'src/router'
@@ -465,6 +509,7 @@ export default {
         payload_value: null
       },
       prepTimeOptions: []
+      // tags: []
     }
   },
   computed: {
@@ -492,6 +537,22 @@ export default {
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
   methods: {
+    // addTag (event) {
+    //   event.preventDefault()
+    //   var val = event.target.value.trim()
+    //   if (val.length > 0) {
+    //     this.tags.push(val)
+    //     event.target.value = ''
+    //   }
+    // },
+    // removeTag (index) {
+    //   this.tags.splice(index, 1)
+    // },
+    // removeLastTag(event) {
+    //   if (event.target.value.length === 0) {
+    //     this.removeTag(this.tags.length - 1)
+    //   }
+    // },
     setTimePrepOptions(){
       var totalMin = 0
       for(let count = 1; count <= 24; count++){
@@ -556,6 +617,8 @@ export default {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data[0]
+          // this.tags = this.data.tags.split(', ')
+          // console.log('this ', this.data)
         }
       })
     },
@@ -584,16 +647,17 @@ export default {
         this.errorMessage = 'Product title length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
         ret = false
       }
-      // if(!this.data.category){
-      //   this.errorMessage = 'Category is required.'
-      //   ret = false
-      // }
+      if(!this.data.category){
+        this.errorMessage = 'Category is required.'
+        ret = false
+      }
       return ret
     },
     updateProduct(){
       if(this.validate() === false){
         return
       }
+      // this.data.tags = this.tags.join(', ')
       this.data.preparation_time = parseInt(this.data.preparation_time)
       this.APIRequest('products/update', this.data).then(response => {
         if(this.common.ecommerce.productUnits !== null){
