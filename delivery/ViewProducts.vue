@@ -38,7 +38,8 @@
                   {{currency.displayWithCurrency(item.price, item.currency ? item.currency : 'PHP')}} x {{item.qty}} = {{currency.displayWithCurrency(item.price * item.qty, item.currency ? item.currency : 'PHP')}}
                 </td>
                 <td>
-                  <button class="btn btn-primary" @click="complete(item)" v-if="item.status !== 'completed'">Complete</button>
+                  <button class="btn btn-primary" disabled v-if="item.status !== 'completed' && (dataAdded.assigned_rider !== null ? dataAdded.assigned_rider.name : dataAdded.assigned_rider) === null">Complete</button>
+                  <button class="btn btn-primary" @click="complete(item)" v-if="item.status !== 'completed' && (dataAdded.assigned_rider !== null ? dataAdded.assigned_rider.name : dataAdded.assigned_rider) !== null">Complete</button>
                 </td>
               </tr>
             </tbody>
@@ -53,7 +54,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-danger" @click="hideModal()">Close</button>
-          <button type="button" class="btn btn-primary" v-bind:disabled="btnDisable" @click="confirm()">Completed</button>
+          <button type="button" class="btn btn-primary" v-if="(dataAdded.assigned_rider !== null ? dataAdded.assigned_rider.name : dataAdded.assigned_rider) !== null && dataAdded.status !== 'completed'" :disabled="btnDisable" @click="confirm()">For Delivery</button>
         </div>
       </div>
     </div>

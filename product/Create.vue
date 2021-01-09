@@ -87,8 +87,10 @@ export default {
           merchant_id: this.user.subAccount.merchant.id
         }
         parameter['type'] = this.option === true ? 'bundled' : 'regular'
+        console.log(parameter)
         $('#loading').css({display: 'block'})
         this.APIRequest('products/create', parameter).then(response => {
+          console.log(response)
           $('#loading').css({display: 'none'})
           if(response.data > 0){
             this.retrieve(response.data)
@@ -133,7 +135,6 @@ export default {
     cancel(){
       this.title = ''
       this.description = ''
-      // this.option = false
     }
   }
 }
