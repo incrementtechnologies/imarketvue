@@ -3,7 +3,7 @@
     <table class="table table-bordered table-responsive">
       <thead>
         <tr>
-          <td>Title</td>
+          <td>Product Name</td>
           <td>Tags</td>
           <td>Inventory</td>
            <td>Settings</td>

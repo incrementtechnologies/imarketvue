@@ -24,13 +24,29 @@
           <br>
           <textarea class="form-control" rows="20" v-model="data.description" placeholder="Type product description here..."></textarea>
         </div>
+        <!-- <div class="product-item-title">
+          <label>Tags</label>
+          <br>
+          <div class="form-control form-control-custom">
+            <div v-for='(tag, index) in tags' :key='index' class='tag-input__tag'>
+              <span @click='removeTag(index)'>x</span>
+              {{ tag }}
+            </div>
+            <input type='text' placeholder="Type a tag" class='tag-input__text' @keydown.enter='addTag' @keydown.188='addTag' @keydown.delete='removeLastTag'/>
+          </div>
+        </div> -->
+        <div class="product-item-title">
+          <label>Category</label>
+          <br>
+          <input type="text" class="form-control form-control-custom" v-model="data.category" placeholder="Separate category with ,">
+        </div>
         <div class="product-item-title">
           <label>Tags</label>
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.tags" placeholder="Separate tags with ,">
         </div>
         <div class="product-item-title">
-          <label>SKU</label>
+          <label>SKU</label> 
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.sku" placeholder="Type product sku here...">
         </div>
@@ -65,11 +81,10 @@
           </div>
         </div>
         <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
-          <label>Foods</label>
+          <label>Type</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.type">
             <option value="regular">Regular</option>
-            <option value="rental">Rental</option>
           </select>
         </div>
         <!-- <div class="product-item-title" style="width: 32% !important; margin-right: 1%;">
@@ -89,6 +104,14 @@
             <option value="outOfStock">Out of Stock</option>
           </select>
         </div>
+        <div class="product-item-title" style="width: 32% !important;margin-left: 1%;">
+          <label>Preparation Time</label>
+          <br>
+          <select class="form-control form-control-custom" v-model="data.preparation_time">
+            <option value = null hidden>null</option>
+            <option v-for="(text,key) in prepTimeOptions" :key="key" :value = text.value>{{text.text}}</option>
+          </select>
+        </div>
         <div class="product-item-title">
           <button class="btn btn-danger" @click="showConfirmationModal(data.id)" v-if="data.inventories === null && data.product_traces === null && data.status === 'pending'" style="margin-top: 5px;">Delete</button>
           <button class="btn btn-primary pull-right" @click="updateProduct()" style="margin-right: 2px; margin-top: 5px;">Update</button>
@@ -102,14 +125,14 @@
             <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('featured')">Select</button>
           </label>
         </div>
-        <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null">
-        <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null">
+        <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null && getFileType(config.BACKEND_URL + selectedImage) === 'img'">
+        <img :src="config.BACKEND_URL + data.featured[0].url" class="main-image" v-if="selectedImage === null && data.featured !== null && getFileType(config.BACKEND_URL + selectedImage) === 'img'">
         <b-embed
-        type="iframe"
+        type="video"
         v-else-if="getFileType(config.BACKEND_URL + selectedImage) === 'vid'"
         aspect="16by9"
         :src="config.BACKEND_URL + selectedImage"
-        allowfullscreen
+        allowfullscreen controls
         ></b-embed>
         <i class="fa fa-image" v-if="selectedImage === null && data.featured === null"></i>
         <label class="remove-image text-danger" id="featured-image-remove" @click="removeImage(data.featured[0].id)" v-if="selectedImage === null && data.featured !== null">
@@ -170,7 +193,7 @@
         <bundled-products :item="data"></bundled-products>
       </div>
     </div>
-    <browse-images-modal :fileUpload="'images/*,video/*'"></browse-images-modal>
+    <browse-images-videos-modal :type="'image/*,video/*'"></browse-images-videos-modal>
     <confirmation ref="confirmationModal" :title="'Confirmation Message'" :message="'Are you sure you want delete this product?'" @onConfirm="deleteProduct($event.id)"></confirmation>
   </div>
 </template>
@@ -413,6 +436,34 @@
       background: #ffaa81;
     }
   }
+
+  .tag-input__tag {
+  height: 30px;
+  float: left;
+  margin-right: 5px;
+  line-height: 30px;
+  padding: 0 10px;
+  border-radius: 5px;
+  color: white;
+  background-color: #f1661a; 
+  border: 1px solid #ff5b04;
+}
+
+.tag-input__tag > span {
+  cursor: pointer;
+  opacity: 0.75;
+}
+
+.tag-input__text {
+  border: none;
+  color: #495057;
+  outline: none;
+  line-height: 50px;
+  background: none;
+  height: 30px;
+  line-height: 30px;
+  font-size: 16px;
+}
 </style>
 <script>
 import ROUTER from 'src/router'
@@ -422,6 +473,7 @@ import COMMON from 'src/common.js'
 import axios from 'axios'
 export default {
   mounted(){
+    this.setTimePrepOptions()
     this.retrieve()
   },
   data(){
@@ -455,7 +507,9 @@ export default {
         product_id: null,
         payload: null,
         payload_value: null
-      }
+      },
+      prepTimeOptions: []
+      // tags: []
     }
   },
   computed: {
@@ -472,7 +526,7 @@ export default {
   components: {
     'ratings': require('components/increment/generic/rating/Ratings.vue'),
     'product-comments': require('components/increment/generic/comment/Comments.vue'),
-    'browse-images-modal': require('components/increment/generic/image/BrowseModal.vue'),
+    'browse-images-videos-modal': require('components/increment/generic/image/BrowseImagesVideo.vue'),
     'variations': require('components/increment/imarketvue/product/Variations.vue'),
     'inventories': require('components/increment/imarketvue/product/Inventories.vue'),
     'product-trace': require('components/increment/imarketvue/product/ProductTrace.vue'),
@@ -483,9 +537,53 @@ export default {
     'confirmation': require('components/increment/generic/modal/Confirmation.vue')
   },
   methods: {
+    // addTag (event) {
+    //   event.preventDefault()
+    //   var val = event.target.value.trim()
+    //   if (val.length > 0) {
+    //     this.tags.push(val)
+    //     event.target.value = ''
+    //   }
+    // },
+    // removeTag (index) {
+    //   this.tags.splice(index, 1)
+    // },
+    // removeLastTag(event) {
+    //   if (event.target.value.length === 0) {
+    //     this.removeTag(this.tags.length - 1)
+    //   }
+    // },
+    setTimePrepOptions(){
+      var totalMin = 0
+      for(let count = 1; count <= 24; count++){
+        var floorDiv
+        var text = ''
+        if(count < 13){
+          totalMin += 15
+          floorDiv = Math.floor(totalMin / 60)
+          var min = ((totalMin / 15) % 4) * 15
+          text = (floorDiv === 0 ? '' : floorDiv + (floorDiv !== 1 ? ' hrs ' : ' hr ')) + (min !== 0 ? min + ' mins' : '')
+        }else if(count < 18){
+          totalMin += 60
+          floorDiv = Math.floor(totalMin / 60)
+          text = floorDiv + (floorDiv === 1 ? ' hr ' : ' hrs ')
+        }else if(count === 18){
+          totalMin = 1440
+          floorDiv = Math.floor(totalMin / 1440)
+          text = floorDiv + (floorDiv === 1 ? ' day ' : ' days ')
+        }else if(count < 24){
+          totalMin += 1440
+          floorDiv = Math.floor(totalMin / 1440)
+          text = floorDiv + (floorDiv === 1 ? ' day ' : ' days ')
+        }else {
+          totalMin += 1440
+          text = '1 week'
+        }
+        this.prepTimeOptions.push({value: totalMin, text: text})
+      }
+    },
     getFileType(url){
-      console.log(url.substring(url.lastIndexOf('.')))
-      return url.substring(url.lastIndexOf('.')) === '.webm' ? 'vid' : 'img'
+      return url.substring(url.lastIndexOf('.')) === '.webm' || url.substring(url.lastIndexOf('.')) === '.mp4' ? 'vid' : 'img'
     },
     redirect(parameter){
       ROUTER.push(parameter)
@@ -519,7 +617,8 @@ export default {
         $('#loading').css({display: 'none'})
         if(response.data.length > 0){
           this.data = response.data[0]
-          console.log(this.data)
+          // this.tags = this.data.tags.split(', ')
+          // console.log('this ', this.data)
         }
       })
     },
@@ -548,16 +647,18 @@ export default {
         this.errorMessage = 'Product title length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
         ret = false
       }
-      // if(!this.data.category){
-      //   this.errorMessage = 'Category is required.'
-      //   ret = false
-      // }
+      if(!this.data.category){
+        this.errorMessage = 'Category is required.'
+        ret = false
+      }
       return ret
     },
     updateProduct(){
       if(this.validate() === false){
         return
       }
+      // this.data.tags = this.tags.join(', ')
+      this.data.preparation_time = parseInt(this.data.preparation_time)
       this.APIRequest('products/update', this.data).then(response => {
         if(this.common.ecommerce.productUnits !== null){
           if(this.data.variation !== null){
@@ -569,7 +670,9 @@ export default {
           this.retrieve()
         }
         this.successMessage = 'Updated Successfully'
-        ROUTER.push(AUTH.redirectRoute(this.user.type))
+        // ROUTER.push(AUTH.redirectRoute(this.user.type))
+        // ROUTER.push('/products')
+
       })
     },
     createAttribute(){

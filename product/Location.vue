@@ -1,11 +1,14 @@
 <template>
   <div class="location-holder">
     <div class="error text-danger" v-if="errorMessage !== null">{{errorMessage}}</div>
-    <div class="form-group">
+    <div class="form-group" v-if="countries !== null">
       <label for="exampleInputEmail1" style="font-weight: 600;">Exclusive Location</label>
       <div>
-        <select style="width: 80%; float: left;" class="form-control form-control-custom" v-model="selectedLocationIndex">
+        <!-- <select style="width: 80%; float: left;" class="form-control form-control-custom" v-model="selectedLocationIndex">
           <option v-for="(cItem, cIndex) in countries.cities" :key="cIndex" :value="cIndex">{{cItem.title}}</option>
+        </select> -->
+        <select style="width: 80%; float: left;" class="form-control form-control-custom" v-model="selectedLocationIndex">
+          <option v-for="(cItem, cIndex) in countries" :key="cIndex" :value="cIndex">{{cItem.city}}</option>
         </select>
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="create()"><i class="fa fa-plus"></i></button>
       </div>
@@ -70,6 +73,7 @@ import axios from 'axios'
 export default {
   mounted(){
     this.retrieve()
+    this.retrieveLocation()
   },
   props: ['item'],
   data(){
@@ -80,7 +84,8 @@ export default {
       data: null,
       common: COMMON,
       selectedLocationIndex: null,
-      countries: COUNTRIES
+      // countries: COUNTRIES
+      countries: null
     }
   },
   methods: {
@@ -91,11 +96,17 @@ export default {
       if(this.selectedLocationIndex === null){
         return
       }
+      // let parameter = {
+      //   product_id: this.item.id,
+      //   locality: COUNTRIES.cities[this.selectedLocationIndex].title,
+      //   region: COUNTRIES.cities[this.selectedLocationIndex].region,
+      //   country: COUNTRIES.cities[this.selectedLocationIndex].country
+      // }
       let parameter = {
         product_id: this.item.id,
-        locality: COUNTRIES.cities[this.selectedLocationIndex].title,
-        region: COUNTRIES.cities[this.selectedLocationIndex].region,
-        country: COUNTRIES.cities[this.selectedLocationIndex].country
+        locality: this.countries[this.selectedLocationIndex].city,
+        region: this.countries[this.selectedLocationIndex].region,
+        country: this.countries[this.selectedLocationIndex].country
       }
       this.APIRequest('product_exclusive_locations/create', parameter).then(response => {
         if(response.data > 0){
@@ -123,6 +134,21 @@ export default {
           this.data = response.data
         }else{
           this.data = null
+        }
+      })
+    },
+    retrieveLocation(){
+      if(this.item === null){
+        return
+      }
+      let parameter = {
+        code: this.user.location_scope
+      }
+      this.APIRequest('location_scopes/retrieve', parameter).then(response => {
+        if(response.data.length > 0){
+          this.countries = response.data
+        }else{
+          this.countries = null
         }
       })
     },
