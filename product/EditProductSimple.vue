@@ -24,6 +24,25 @@
           <br>
           <textarea class="form-control" rows="20" v-model="data.description" placeholder="Type product description here..."></textarea>
         </div>
+        <div class="product-item-title" v-if="data.price !== null && data.price.length > 0">
+          <label>Price</label>
+          <br>
+          <input type="number" class="form-control form-control-custom" v-model="data.price[0].price" placeholder="Type price here...">        
+        </div>
+        <div class="product-item-title" v-if="data.price !== null && data.price.length > 0">
+           <label>Price Currency</label>
+          <br>
+          <select class="form-control form-control-custom" v-model="data.price[0].currency">
+            <option value = null hidden></option>
+            <option>PHP</option>
+            <option>USD</option>
+          </select>
+        </div>
+        <div class="product-item-title">
+          <label>Cuisine</label>
+          <br>
+          <input type="text" class="form-control form-control-custom" v-model="data.type" placeholder="Type cuisine here...">
+        </div>
         <div class="product-item-title">
           <label>Tags</label>
           <br>
@@ -409,7 +428,8 @@ export default {
         payload: null,
         payload_value: null
       },
-      prepTimeOptions: []
+      prepTimeOptions: [],
+      currency: null
       // tags: []
     }
   },
@@ -551,13 +571,30 @@ export default {
       }
       return ret
     },
+    updatePrice() {
+      let parameter = {
+        id: this.data.price[0].id,
+        product_id: this.data.id,
+        price: this.data.price[0].price,
+        currency: this.data.price[0].currency,
+        type: 'regular'
+      }
+      $('#loading').css({display: 'block'})
+      this.APIRequest('pricings/update', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        this.retrieve()
+      })
+    },
     updateProduct(){
       if(this.validate() === false){
         return
       }
       // this.data.tags = this.tags.join(', ')
       this.data.preparation_time = parseInt(this.data.preparation_time)
+      $('#loading').css({display: 'block'})
       this.APIRequest('products/update', this.data).then(response => {
+        $('#loading').css({display: 'none'})
+        this.updatePrice()
         if(this.common.ecommerce.productUnits !== null){
           if(this.data.variation !== null){
             this.updateAttribute(this.data.variation[0])
