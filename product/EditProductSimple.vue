@@ -72,8 +72,8 @@
       <div class="product-image" style="position: relative;">
         <div class="product-row" style="text-align: left !important;">
           <label style="width: 100%">
-            <label style="width: 70%">Featured Image</label>
-            <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('featured')">Select</button>
+            <!-- <label style="width: 70%">Featured Image</label>
+            <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('featured')">Select</button> -->
           </label>
         </div>
         <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null && getFileType(config.BACKEND_URL + selectedImage) === 'img'">
@@ -92,11 +92,10 @@
        <div class="images-holder">
         <div class="product-row" style="text-align: left !important;">
           <label style="width: 100%">
-            <label style="width: 70%">Other Images</label>
-            <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('images')">Select</button>
+            <button class="btn btn-primary pull-right mt-3" @click="showImages('featured')">Select</button>
           </label>
         </div>
-        <div v-for="item, index in data.images" class="image-item" @click="selectImage(item.url)" style="position: relative;">
+        <!-- <div v-for="item, index in data.images" class="image-item" @click="selectImage(item.url)" style="position: relative;">
           <img :src="config.BACKEND_URL + item.url" class="other-image" v-if="getFileType(config.BACKEND_URL + item.url) === 'img'">
           <b-embed
           type="video"
@@ -109,7 +108,7 @@
           <label class="remove-image text-danger" id="other-images-remove" @click="removeImage(item.id)" v-if="item.status !== 'featured'">
             <i class="fa fa-times"></i>
           </label>
-        </div>
+        </div> -->
        </div>
       </div>
     </div>
@@ -141,7 +140,8 @@
     text-align: center;
   }
   .product-image .main-image{
-    height: 350px;
+    margin-top: 15px;
+    height: 300px;
     max-width: 100%;
   }
   .product-image .fa-image{
