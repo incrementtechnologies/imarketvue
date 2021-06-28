@@ -16,7 +16,7 @@
         class="form-control"
         v-model="searchValue"
         @keypress="keypressHandler"
-        :placeholder="'Search Name of Product ' + '...'" 
+        :placeholder="'Search ...'" 
         v-if="(activeSort !== null && activeSort[sortValue].type !== 'date')"
       >
        <!-- Date Tag -->
