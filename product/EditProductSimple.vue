@@ -15,7 +15,7 @@
           <label class="text-success">{{successMessage}}</label>
         </div>
         <div class="product-item-title">
-          <label>Title <label class="text-danger">*</label></label>
+          <label>Product Name <label class="text-danger">*</label></label>
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.title" placeholder="Type product title here...">
         </div>
@@ -43,7 +43,7 @@
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.type" placeholder="Type cuisine here...">
         </div>
-        <div class="product-item-title">
+        <!-- <div class="product-item-title">
           <label>Tags</label>
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.tags" placeholder="Separate tags with ,">
@@ -52,8 +52,8 @@
           <label>SKU</label> 
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.sku" placeholder="Type product sku here...">
-        </div>
-        <div class="product-item-title" style="width: 100%">
+        </div> -->
+        <!-- <div class="product-item-title" style="width: 100%">
           <label>Status</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.status">
@@ -62,11 +62,11 @@
             <option value="Featured">Feature</option>
             <option value="outOfStock">Out of Stock</option>
           </select>
-        </div>
+        </div> -->
         <div class="product-item-title" style="width: 100%;">
           <button class="btn btn-danger" @click="showConfirmationModal(data.id)" v-if="data.inventories === null && data.product_traces === null && data.status === 'pending'" style="margin-top: 5px;">Delete</button>
           <button class="btn btn-primary pull-right" @click="updateProduct()" style="margin-right: 2px; margin-top: 5px;">Update</button>
-          <button class="btn btn-warning pull-right" @click="redirect('/marketplace/product/' + data.code + '/' + 'preview')" style="margin-right: 10px; margin-top: 5px;">Preview</button>
+          <!-- <button class="btn btn-warning pull-right" @click="redirect('/marketplace/product/' + data.code + '/' + 'preview')" style="margin-right: 10px; margin-top: 5px;">Preview</button> -->
         </div>
       </div>
       <div class="product-image" style="position: relative;">
@@ -558,7 +558,7 @@ export default {
       this.errorMessage = null
       let ret = true
       if(this.data.title === null || this.data.title === ''){
-        this.errorMessage = 'Title is required.'
+        this.errorMessage = 'Product Name is required.'
         ret = false
       }
       if(this.data.description === '' || this.data.description === null){
@@ -566,7 +566,7 @@ export default {
         ret = false
       }
       if(typeof this.common.ecommerce.productTitleLimit !== undefined && typeof this.common.ecommerce.productTitleLimit !== 'undefined' && this.data.title.length > this.common.ecommerce.productTitleLimit){
-        this.errorMessage = 'Product title length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
+        this.errorMessage = 'Product name length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
         ret = false
       }
       return ret
