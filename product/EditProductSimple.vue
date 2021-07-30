@@ -15,7 +15,7 @@
           <label class="text-success">{{successMessage}}</label>
         </div>
         <div class="product-item-title">
-          <label>Title <label class="text-danger">*</label></label>
+          <label>Product Name <label class="text-danger">*</label></label>
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.title" placeholder="Type product title here...">
         </div>
@@ -24,7 +24,26 @@
           <br>
           <textarea class="form-control" rows="20" v-model="data.description" placeholder="Type product description here..."></textarea>
         </div>
+        <div class="product-item-title" v-if="data.price !== null && data.price.length > 0">
+          <label>Price</label>
+          <br>
+          <input type="number" class="form-control form-control-custom" v-model="data.price[0].price" placeholder="Type price here...">        
+        </div>
+        <div class="product-item-title" v-if="data.price !== null && data.price.length > 0">
+           <label>Price Currency</label>
+          <br>
+          <select class="form-control form-control-custom" v-model="data.price[0].currency">
+            <option value = null hidden></option>
+            <option>PHP</option>
+            <option>USD</option>
+          </select>
+        </div>
         <div class="product-item-title">
+          <label>Cuisine</label>
+          <br>
+          <input type="text" class="form-control form-control-custom" v-model="data.type" placeholder="Type cuisine here...">
+        </div>
+        <!-- <div class="product-item-title">
           <label>Tags</label>
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.tags" placeholder="Separate tags with ,">
@@ -33,8 +52,8 @@
           <label>SKU</label> 
           <br>
           <input type="text" class="form-control form-control-custom" v-model="data.sku" placeholder="Type product sku here...">
-        </div>
-        <div class="product-item-title" style="width: 100%">
+        </div> -->
+        <!-- <div class="product-item-title" style="width: 100%">
           <label>Status</label>
           <br>
           <select class="form-control form-control-custom" v-model="data.status">
@@ -43,18 +62,18 @@
             <option value="Featured">Feature</option>
             <option value="outOfStock">Out of Stock</option>
           </select>
-        </div>
+        </div> -->
         <div class="product-item-title" style="width: 100%;">
           <button class="btn btn-danger" @click="showConfirmationModal(data.id)" v-if="data.inventories === null && data.product_traces === null && data.status === 'pending'" style="margin-top: 5px;">Delete</button>
           <button class="btn btn-primary pull-right" @click="updateProduct()" style="margin-right: 2px; margin-top: 5px;">Update</button>
-          <button class="btn btn-warning pull-right" @click="redirect('/marketplace/product/' + data.code + '/' + 'preview')" style="margin-right: 10px; margin-top: 5px;">Preview</button>
+          <!-- <button class="btn btn-warning pull-right" @click="redirect('/marketplace/product/' + data.code + '/' + 'preview')" style="margin-right: 10px; margin-top: 5px;">Preview</button> -->
         </div>
       </div>
       <div class="product-image" style="position: relative;">
         <div class="product-row" style="text-align: left !important;">
           <label style="width: 100%">
-            <label style="width: 70%">Featured Image</label>
-            <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('featured')">Select</button>
+            <!-- <label style="width: 70%">Featured Image</label>
+            <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('featured')">Select</button> -->
           </label>
         </div>
         <img :src="config.BACKEND_URL + selectedImage" class="main-image" v-if="selectedImage !== null && getFileType(config.BACKEND_URL + selectedImage) === 'img'">
@@ -73,11 +92,10 @@
        <div class="images-holder">
         <div class="product-row" style="text-align: left !important;">
           <label style="width: 100%">
-            <label style="width: 70%">Other Images</label>
-            <button class="btn btn-primary pull-right" style="margin-right:3%" @click="showImages('images')">Select</button>
+            <button class="btn btn-primary pull-right mt-3" @click="showImages('featured')">Select</button>
           </label>
         </div>
-        <div v-for="item, index in data.images" class="image-item" @click="selectImage(item.url)" style="position: relative;">
+        <!-- <div v-for="item, index in data.images" class="image-item" @click="selectImage(item.url)" style="position: relative;">
           <img :src="config.BACKEND_URL + item.url" class="other-image" v-if="getFileType(config.BACKEND_URL + item.url) === 'img'">
           <b-embed
           type="video"
@@ -90,7 +108,7 @@
           <label class="remove-image text-danger" id="other-images-remove" @click="removeImage(item.id)" v-if="item.status !== 'featured'">
             <i class="fa fa-times"></i>
           </label>
-        </div>
+        </div> -->
        </div>
       </div>
     </div>
@@ -122,7 +140,8 @@
     text-align: center;
   }
   .product-image .main-image{
-    height: 350px;
+    margin-top: 15px;
+    height: 300px;
     max-width: 100%;
   }
   .product-image .fa-image{
@@ -409,7 +428,8 @@ export default {
         payload: null,
         payload_value: null
       },
-      prepTimeOptions: []
+      prepTimeOptions: [],
+      currency: null
       // tags: []
     }
   },
@@ -538,7 +558,7 @@ export default {
       this.errorMessage = null
       let ret = true
       if(this.data.title === null || this.data.title === ''){
-        this.errorMessage = 'Title is required.'
+        this.errorMessage = 'Product Name is required.'
         ret = false
       }
       if(this.data.description === '' || this.data.description === null){
@@ -546,10 +566,24 @@ export default {
         ret = false
       }
       if(typeof this.common.ecommerce.productTitleLimit !== undefined && typeof this.common.ecommerce.productTitleLimit !== 'undefined' && this.data.title.length > this.common.ecommerce.productTitleLimit){
-        this.errorMessage = 'Product title length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
+        this.errorMessage = 'Product name length should not exceed to ' + this.common.ecommerce.productTitleLimit + ' characters.'
         ret = false
       }
       return ret
+    },
+    updatePrice() {
+      let parameter = {
+        id: this.data.price[0].id,
+        product_id: this.data.id,
+        price: this.data.price[0].price,
+        currency: this.data.price[0].currency,
+        type: 'regular'
+      }
+      $('#loading').css({display: 'block'})
+      this.APIRequest('pricings/update', parameter).then(response => {
+        $('#loading').css({display: 'none'})
+        this.retrieve()
+      })
     },
     updateProduct(){
       if(this.validate() === false){
@@ -557,7 +591,10 @@ export default {
       }
       // this.data.tags = this.tags.join(', ')
       this.data.preparation_time = parseInt(this.data.preparation_time)
+      $('#loading').css({display: 'block'})
       this.APIRequest('products/update', this.data).then(response => {
+        $('#loading').css({display: 'none'})
+        this.updatePrice()
         if(this.common.ecommerce.productUnits !== null){
           if(this.data.variation !== null){
             this.updateAttribute(this.data.variation[0])
