@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="variations-content" v-if="item.variation !== null">
-      <div class="attribute-item" v-for="itemVariation, indexVariation in item.variation">
+      <div class="attribute-item" v-for="itemVariation, indexVariation in item.variation" :key="indexVariation">
         <input class="form-control form-control-custom" style="width: 20%; float: left; margin-right: 10px;" v-model="itemVariation.payload" placeholder="Type variation here...">
         <input type="text" class="form-control form-control-custom" style="float: left; width: 20%;" placeholder="Type variation value here..." v-if="itemVariation.payload.toLowerCase() !== 'color'" v-model="itemVariation.payload_value" @keyup.enter="update(itemVariation)">
 
@@ -36,7 +36,7 @@
           <option>{{country.list[0].currency}}</option>
         </select>
         <input class="form-control form-control-custom" style="width: 10%; float: left; margin-right: 5px; margin-left: 5px;" type="number" v-model="itemVariation.price" placeholder="Price">
-        <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom" v-model="itemVariation.status">
+        <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom text-uppercase" v-model="itemVariation.status">
           <option v-for="(item, index) in common.ecommerce.status" :key="index" :value="item">{{item}}</option>
         </select>
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="update(itemVariation)">
@@ -129,11 +129,9 @@ export default {
       ROUTER.push(parameter)
     },
     create(){
-      console.log(this.newAttribute.payload)
       if(this.newAttribute.payload_value !== null && this.newAttribute.payload_value !== '' && this.newAttribute.currency !== null && this.newAttribute.currency !== '' &&
       this.newAttribute.price !== null && this.newAttribute.price !== '' && this.newAttribute.status !== null && this.newAttribute.status !== ''){
         this.APIRequest('product_attributes/create', this.newAttribute).then(response => {
-          console.log('success', response.data)
           if(response.data > 0){
             this.newAttribute.payload_value = null
             this.newAttribute.price = null
