@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="variations-content" v-if="item.variation !== null">
-      <div class="attribute-item" v-for="itemVariation, indexVariation in item.variation">
+      <div class="attribute-item" v-for="itemVariation, indexVariation in item.variation" :key="indexVariation">
         <input class="form-control form-control-custom" style="width: 20%; float: left; margin-right: 10px;" v-model="itemVariation.payload" placeholder="Type variation here...">
         <input type="text" class="form-control form-control-custom" style="float: left; width: 20%;" placeholder="Type variation value here..." v-if="itemVariation.payload.toLowerCase() !== 'color'" v-model="itemVariation.payload_value" @keyup.enter="update(itemVariation)">
 

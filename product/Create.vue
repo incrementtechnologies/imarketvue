@@ -133,7 +133,6 @@ export default {
     cancel(){
       this.title = ''
       this.description = ''
-      // this.option = false
     }
   }
 }

@@ -86,7 +86,7 @@
         <div class="product-row" v-if="parseInt(data.qty) > 0">
           <label>Quantity</label>
           <select class="qty-input" v-model="qty">
-            <option v-for="i in parseInt(data.qty)">{{i}}</option>
+            <option v-for="(i, index) in parseInt(data.qty)" :key="index">{{i}}</option>
           </select>
         </div>
         <div class="product-row" v-if="parseInt(data.qty) <= 0">
