@@ -36,11 +36,7 @@
           <option>{{country.list[0].currency}}</option>
         </select>
         <input class="form-control form-control-custom" style="width: 10%; float: left; margin-right: 5px; margin-left: 5px;" type="number" v-model="itemVariation.price" placeholder="Price">
-<<<<<<< HEAD
         <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom" v-model="itemVariation.status">
-=======
-        <select style="width: 18%; float: left; margin-right: 5px;" class="form-control form-control-custom text-uppercase" v-model="itemVariation.status">
->>>>>>> 1a2289b55aed510e43a02e32f4500bff8b868259
           <option v-for="(item, index) in common.ecommerce.status" :key="index" :value="item">{{item}}</option>
         </select>
         <button class="btn btn-primary form-control-custom" style="margin-left: 10px;" @click="update(itemVariation)">
@@ -133,10 +129,7 @@ export default {
       ROUTER.push(parameter)
     },
     create(){
-<<<<<<< HEAD
       console.log(this.newAttribute.payload)
-=======
->>>>>>> 1a2289b55aed510e43a02e32f4500bff8b868259
       if(this.newAttribute.payload_value !== null && this.newAttribute.payload_value !== '' && this.newAttribute.currency !== null && this.newAttribute.currency !== '' &&
       this.newAttribute.price !== null && this.newAttribute.price !== '' && this.newAttribute.status !== null && this.newAttribute.status !== ''){
         this.APIRequest('product_attributes/create', this.newAttribute).then(response => {
