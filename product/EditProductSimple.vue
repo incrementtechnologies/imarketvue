@@ -63,7 +63,7 @@
             <option value="outOfStock">Out of Stock</option>
           </select>
         </div> -->
-        <div class="product-item-title" style="width: 100%;">
+        <div class="product-item-title" style="width: 100%; margin-bottom: 20px;">
           <button class="btn btn-danger" @click="showConfirmationModal(data.id)" v-if="data.inventories === null && data.product_traces === null && data.status === 'pending'" style="margin-top: 5px;">Delete</button>
           <button class="btn btn-primary pull-right" @click="updateProduct()" style="margin-right: 2px; margin-top: 5px;">Update</button>
           <!-- <button class="btn btn-warning pull-right" @click="redirect('/marketplace/product/' + data.code + '/' + 'preview')" style="margin-right: 10px; margin-top: 5px;">Preview</button> -->
