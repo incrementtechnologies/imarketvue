@@ -34,14 +34,8 @@
           <br>
           <select class="form-control form-control-custom" v-model="data.price[0].currency">
             <option value = null hidden></option>
-            <option>PHP</option>
             <option>USD</option>
           </select>
-        </div>
-        <div class="product-item-title">
-          <label>Cuisine</label>
-          <br>
-          <input type="text" class="form-control form-control-custom" v-model="data.type" placeholder="Type cuisine here...">
         </div>
         <!-- <div class="product-item-title">
           <label>Tags</label>
